@@ -50,8 +50,7 @@ bool Segment::Hit(Point p)
 
 string Segment::GetInformation()
 {
-    string information = "S " + name + " " + extremity1.GetX() + " " + extremity1.GetY() + " " + extremity2.GetX() + " " + extremity2.GetY() ;
-    return information;
+    return ("S " + name + " " + extremity1.GetX() + " " + extremity1.GetY() + " " + extremity2.GetX() + " " + extremity2.GetY());
 }
 
 //------------------------------------------------------- Surcharge d'operateurs

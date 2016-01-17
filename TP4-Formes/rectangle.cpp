@@ -31,8 +31,7 @@ bool Rectangle::Hit(Point p)
 
 string Rectangle::GetInformation()
 {
-    string information = "R " + name + " " + topLeft.GetX() + " " + topLeft.GetY() + " " + bottomRight.GetX() + " " + bottomRight.GetY();
-    return information;
+    return ("R " + name + " " + topLeft.GetX() + " " + topLeft.GetY() + " " + bottomRight.GetX() + " " + bottomRight.GetY());
 }
 
 //------------------------------------------------------- Surcharge d'operateurs
