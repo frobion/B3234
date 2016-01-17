@@ -13,6 +13,7 @@
 
 using namespace std;
 
+#include "draw.h"
 
 //------------------------------------------------------------------- Constantes
 
@@ -30,6 +31,8 @@ class CommandLineInterface
 public:
 //----------------------------------------------------------- Méthodes publiques
 
+int waitForCommand();
+
 //------------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
@@ -46,6 +49,22 @@ protected:
 
 private:
 //------------------------------------------------------------- Methodes privées
+bool createSegment();
+bool createRectangle();
+bool createConvexPolygone();
+bool createReunion();
+bool createIntersection();
+bool hit();
+bool deleteForm();
+bool move();
+bool listForm();
+bool undo();
+bool redo();
+bool load();
+bool save();
+bool clear();
+
+void responseToUser(bool, string="");
 
 protected:
 //----------------------------------------------------------- Attributs protégés
@@ -53,6 +72,7 @@ protected:
 private:
 //------------------------------------------------------------- Attributs privés
 
+Draw draw;
 //---------------------------------------------------------------- Classes amies
 
 //-------------------------------------------------------------- Classes privées
