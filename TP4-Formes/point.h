@@ -32,6 +32,7 @@ public:
     int GetX() const ;
     int GetY() const ;
     void Move(int dx, int dy);
+    bool IsDifferent(const Point & p) const;
 
 //------------------------------------------------------- Surcharge d'opérateurs
 

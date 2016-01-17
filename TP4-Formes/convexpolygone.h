@@ -32,12 +32,15 @@ public:
     virtual bool Hit(Point p);
     virtual string GetInformation();
 
+    static bool IsConstructionPossible(const string &name, const Point * pointList,
+                                       int pointNumber, string &errorMessage);
+
 //------------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
   ConvexPolygone(const ConvexPolygone &ConvexPolygone);
 
-  ConvexPolygone();
+  ConvexPolygone(const string &name, const Point *, int pointNumber);
 
   virtual ~ConvexPolygone();
 
@@ -48,6 +51,8 @@ protected:
 
 private:
 //------------------------------------------------------------- Methodes privées
+
+  static double getSinusThetaABAC(const Point &a, const Point &b, const Point &c);
 
 protected:
 //----------------------------------------------------------- Attributs protégés

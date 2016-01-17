@@ -35,8 +35,9 @@ string Union::GetInformation()
     string rtn = "";
     for (int i = 0; i < formListLength; i++)
     {
-
+        rtn += formList[i]->GetInformation() + "\r\n";
     }
+    return rtn;
 }
 
 //------------------------------------------------------- Surcharge d'operateurs

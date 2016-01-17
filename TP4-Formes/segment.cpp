@@ -50,7 +50,18 @@ bool Segment::Hit(Point p)
 
 string Segment::GetInformation()
 {
-    return ("S " + name + " " + extremity1.GetX() + " " + extremity1.GetY() + " " + extremity2.GetX() + " " + extremity2.GetY());
+    return ("S " + name + " " + to_string(extremity1.GetX()) + " " + to_string(extremity1.GetY()) + " "
+            + to_string(extremity2.GetX()) + " " + to_string(extremity2.GetY()));
+}
+
+bool Segment::IsConstructionPossible(const Point &extremity1, const Point &extremity2, string &errorMessage)
+{
+    if(!extremity1.IsDifferent(extremity2))
+    {
+        errorMessage = "Point du segment identique";
+        return false;
+    }
+    return true;
 }
 
 //------------------------------------------------------- Surcharge d'operateurs

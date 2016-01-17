@@ -32,6 +32,8 @@ public:
     virtual bool Hit(Point p);
     virtual string GetInformation();
 
+    static bool IsConstructionPossible(const Point &extremity1, const Point &extremity2, string &errorMessage);
+
 //------------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------------- Constructeurs - destructeur

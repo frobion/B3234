@@ -31,7 +31,18 @@ bool Rectangle::Hit(Point p)
 
 string Rectangle::GetInformation()
 {
-    return ("R " + name + " " + topLeft.GetX() + " " + topLeft.GetY() + " " + bottomRight.GetX() + " " + bottomRight.GetY());
+    return ("R " + name + " " + to_string(topLeft.GetX()) + " " + to_string(topLeft.GetY()) +
+            " " + to_string(bottomRight.GetX()) + " " + to_string(bottomRight.GetY()));
+}
+
+bool Rectangle::IsConstructionPossible(const Point &topLeft, const Point &bottomRight, string &errorMessage)
+{
+    if (topLeft.GetX() <= bottomRight.GetX() || topLeft.GetY() <= bottomRight.GetY())
+    {
+        errorMessage = "Mauvais cadran";
+        return false;
+    }
+    return true;
 }
 
 //------------------------------------------------------- Surcharge d'operateurs

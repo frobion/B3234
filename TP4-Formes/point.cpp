@@ -40,6 +40,11 @@ void Point::Move(int dx, int dy)
     y += dy;
 }
 
+bool Point::IsDifferent(const Point &p) const
+{
+    return (p.GetX() != x || p.GetY() != y);
+}
+
 //------------------------------------------------------- Surcharge d'operateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
