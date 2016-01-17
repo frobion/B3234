@@ -11,9 +11,10 @@
 
 //--------------------------------------------------------- Interfaces utilisées
 
-using namespace std;
-
 #include "draw.h"
+#include <string>
+
+using namespace std;
 
 //------------------------------------------------------------------- Constantes
 
@@ -49,22 +50,22 @@ protected:
 
 private:
 //------------------------------------------------------------- Methodes privées
-bool createSegment();
-bool createRectangle();
-bool createConvexPolygone();
-bool createReunion();
-bool createIntersection();
-bool hit();
-bool deleteForm();
-bool move();
-bool listForm();
-bool undo();
-bool redo();
-bool load();
-bool save();
-bool clear();
+void createSegment();
+void createRectangle();
+void createConvexPolygone();
+void createReunion();
+void createIntersection();
+void hit();
+void deleteForm();
+void move();
+void listForm();
+void undo();
+void redo();
+void load();
+void save();
+void clear();
 
-void responseToUser(bool, string="");
+void responseToUser(bool response, string errorMessage = "");
 
 protected:
 //----------------------------------------------------------- Attributs protégés

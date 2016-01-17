@@ -10,8 +10,16 @@
 //-------------------------------------------------------------- Include système
 using namespace std;
 
+#include <iostream>
+
 //------------------------------------------------------------ Include personnel
 #include "CommandLineInterface.h"
+#include "point.h"
+#include "segment.h"
+#include "rectangle.h"
+#include "convexpolygone.h"
+#include "union.h"
+#include "intersection.h"
 
 //------------------------------------------------------------------- Constantes
 
@@ -26,7 +34,7 @@ using namespace std;
 
 int CommandLineInterface::waitForCommand()
 {
-
+    string nextAction;
     while (cin >> nextAction)
     {
 
@@ -38,54 +46,54 @@ int CommandLineInterface::waitForCommand()
         {
             createRectangle();
         }
-        else if( nextAction == "PC" )
-        {
-            createConvexPolygone();
-        }
-        else if( nextAction == "OR" )
-        {
-            createReunion();
-        }
-        else if( nextAction == "OI" )
-        {
-            createIntersection();
-        }
-        else if( nextAction == "HIT" )
-        {
-            hit();
-        }
-        else if( nextAction == "DELETE" )
-        {
-            deleteForm();
-        }
-        else if( nextAction == "MOVE" )
-        {
-            move();
-        }
-        else if( nextAction == "LIST" )
-        {
-            listForm();
-        }
-        else if( nextAction == "UNDO" )
-        {
-            undo();
-        }
-        else if( nextAction == "REDO" )
-        {
-            redo();
-        }
-        else if( nextAction == "LOAD" )
-        {
-            load();
-        }
-        else if( nextAction == "SAVE" )
-        {
-            save();
-        }
-        else if( nextAction == "CLEAR" )
-        {
-            clear();
-        }
+//        else if( nextAction == "PC" )
+//        {
+//            createConvexPolygone();
+//        }
+//        else if( nextAction == "OR" )
+//        {
+//            createReunion();
+//        }
+//        else if( nextAction == "OI" )
+//        {
+//            createIntersection();
+//        }
+//        else if( nextAction == "HIT" )
+//        {
+//            hit();
+//        }
+//        else if( nextAction == "DELETE" )
+//        {
+//            deleteForm();
+//        }
+//        else if( nextAction == "MOVE" )
+//        {
+//            move();
+//        }
+//        else if( nextAction == "LIST" )
+//        {
+//            listForm();
+//        }
+//        else if( nextAction == "UNDO" )
+//        {
+//            undo();
+//        }
+//        else if( nextAction == "REDO" )
+//        {
+//            redo();
+//        }
+//        else if( nextAction == "LOAD" )
+//        {
+//            load();
+//        }
+//        else if( nextAction == "SAVE" )
+//        {
+//            save();
+//        }
+//        else if( nextAction == "CLEAR" )
+//        {
+//            clear();
+//        }
         else if( nextAction == "EXIT" )
         {
             return 0;
@@ -106,7 +114,7 @@ int CommandLineInterface::waitForCommand()
 
 //------------------------------------------------------------- Methodes privees
 
-void CommandLineInterface::responseToUser(response, message)
+void CommandLineInterface::responseToUser(bool response, string message)
 {
     cout << (response ? "OK" : "ERR") << endl;
 
@@ -116,7 +124,7 @@ void CommandLineInterface::responseToUser(response, message)
     }
 }
 
-bool CommandLineInterface::createSegment()
+void CommandLineInterface::createSegment()
 {
     string name;
     int x1;
@@ -132,7 +140,7 @@ bool CommandLineInterface::createSegment()
     string messageErreur = "";
     bool constructionPossible = false;
 
-    if(Segment::isConstructionPossible(p1, p2, messageErreur))
+    if(Segment::IsConstructionPossible(p1, p2, messageErreur))
     {
         s = new Segment(name, p1, p2);
         constructionPossible = draw.AddForm(name, s, messageErreur);
@@ -141,7 +149,7 @@ bool CommandLineInterface::createSegment()
     responseToUser(constructionPossible, messageErreur);
 }
 
-bool CommandLineInterface::createRectangle()
+void CommandLineInterface::createRectangle()
 {
     string name;
     int x1;
@@ -157,7 +165,7 @@ bool CommandLineInterface::createRectangle()
     string messageErreur = "";
     bool constructionPossible = false;
 
-    if(Rectangle::isConstructionPossible(p1, p2, messageErreur))
+    if(Rectangle::IsConstructionPossible(p1, p2, messageErreur))
     {
         r = new Rectangle(name, p1, p2);
         constructionPossible = draw.AddForm(name, r, messageErreur);
@@ -166,43 +174,43 @@ bool CommandLineInterface::createRectangle()
     responseToUser(constructionPossible, messageErreur);
 }
 
-bool CommandLineInterface::createConvexPolygone()
-{
-    string read;
-    string name;
-    int buffer=0;
-    unsigned int counter=0;
-    vector<Point> parametersArray;
+//void CommandLineInterface::createConvexPolygone()
+//{
+//    string read;
+//    string name;
+//    int buffer=0;
+//    unsigned int counter=0;
+//    vector<Point> parametersArray;
 
-    do{
-        getline(cin, read, ' ');
-        counter++;
-        if(counter==1)
-        {
-            name = read;
-        }
-        else if(counter!=1 && counter&1==true) // Compteur impair
-        {
-            parametersArray.push_back(Point(buffer, read));
-        }
-        buffer = read;
+//    do{
+//        getline(cin, read, ' ');
+//        counter++;
+//        if(counter==1)
+//        {
+//            name = read;
+//        }
+//        else if(counter!=1 && counter&1==true) // Compteur impair
+//        {
+//            parametersArray.push_back(Point(buffer, read));
+//        }
+//        buffer = read;
 
-    }while(read != ' ');
+//    }while(read != ' ');
 
-    if(!counter&1)  // Si on a un nombre total pair de parametres
-    {
-       responseToUser(false, "Le nombre de paramètres est incorrect");
-    }
+//    if(!counter&1)  // Si on a un nombre total pair de parametres
+//    {
+//       responseToUser(false, "Le nombre de paramètres est incorrect");
+//    }
 
-    Rectangle* r;
-    string messageError = "";
-    bool constructionPossible = false;
+//    Rectangle* r;
+//    string messageError = "";
+//    bool constructionPossible = false;
 
-    if(ConvexPolygone::isConstructionPossible(p1, p2, messageError))
-    {
-        r = new ConvexPolygone(name, p1, p2);
-        constructionPossible = draw.AddForm(name, r, messageError);
+//    if(ConvexPolygone::isConstructionPossible(p1, p2, messageError))
+//    {
+//        r = new ConvexPolygone(name, p1, p2);
+//        constructionPossible = draw.AddForm(name, r, messageError);
 
-    }
-    responseToUser(constructionPossible, messageErreur);
-}
+//    }
+//    responseToUser(constructionPossible, messageErreur);
+//}

@@ -13,6 +13,10 @@
 
 using namespace std;
 
+#include <string>
+
+#include "form.h"
+
 
 //------------------------------------------------------------------- Constantes
 
@@ -29,6 +33,7 @@ class Draw
 
 public:
 //----------------------------------------------------------- Méthodes publiques
+    bool AddForm(const string &name, Form * form, string &errorMessage);
 
 //------------------------------------------------------- Surcharge d'opérateurs
 

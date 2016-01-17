@@ -1,48 +1,46 @@
 /*******************************************************************************
- ConvexPolygone.h  -  description
+ Test.h  -  description
  -------------------
  début                : 08/12
  copyright            : (C) 2015 par frobion
  ******************************************************************************/
 
-//------------------ Interface de la classe ConvexPolygone (fichier ConvexPolygone.h) ------
-#if !defined ( CONVEX_POLYGONE_H )
-#define CONVEX_POLYGONE_H
+//------------------ Interface de la classe Test (fichier Test.h) ------
+#if !defined ( TEST_H )
+#define TEST_H
 
 //--------------------------------------------------------- Interfaces utilisées
+
 using namespace std;
 
-#include "Form.h"
+#include <string>
+
 
 //------------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------------ Types
 
 //------------------------------------------------------------------------------
-// Rôle de la classe ConvexPolygone
+// Rôle de la classe Test
 //
 //------------------------------------------------------------------------------
 
-class ConvexPolygone : public Form
+class Test
 {
 //----------------------------------------------------------------------- PUBLIC
 
 public:
 //----------------------------------------------------------- Méthodes publiques
-    virtual bool Hit(Point p);
-    virtual string GetInformation();
-
-    static bool IsConstructionPossible(const Point * pointList,
-                                       int pointNumber, string &errorMessage);
+    static bool TestConvexPolygoneIsConstructionPossible();
 
 //------------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
-  ConvexPolygone(const ConvexPolygone &ConvexPolygone);
+  Test(const Test &Test);
 
-  ConvexPolygone(const string &name, const Point *, int pointNumber);
+  Test();
 
-  virtual ~ConvexPolygone();
+  virtual ~Test();
 
 //------------------------------------------------------------------------ PRIVE
 
@@ -51,8 +49,7 @@ protected:
 
 private:
 //------------------------------------------------------------- Methodes privées
-
-  static double getSinusThetaABAC(const Point &a, const Point &b, const Point &c);
+  static void responseToUser(bool response, const string &message = "");
 
 protected:
 //----------------------------------------------------------- Attributs protégés
@@ -68,6 +65,6 @@ private:
 
 };
 
-//----------------------------------------------- Types dépendants de <ConvexPolygone>
+//----------------------------------------------- Types dépendants de <Test>
 
-#endif // CONVEX_POLYGONE_H
+#endif // TEST_H

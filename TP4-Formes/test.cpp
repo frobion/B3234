@@ -1,17 +1,20 @@
 /*******************************************************************************
- Draw.cpp  -  description
+ Test.cpp  -  description
  -------------------
  début                : 08/12
  copyright            : (C) 2015 par frobion
  ******************************************************************************/
 
-//------------------ Réalisation de la classe Draw (fichier Draw.cpp) --
+//------------------ Réalisation de la classe Test (fichier Test.cpp) --
 //---------------------------------------------------------------------- INCLUDE
 //-------------------------------------------------------------- Include système
 using namespace std;
 
+#include <iostream>
+
 //------------------------------------------------------------ Include personnel
-#include "Draw.h"
+#include "Test.h"
+#include "convexpolygone.h"
 
 //------------------------------------------------------------------- Constantes
 
@@ -24,22 +27,31 @@ using namespace std;
 
 //----------------------------------------------------------- Methodes publiques
 
-bool Draw::AddForm(const string &name, Form *form, string &errorMessage)
+bool Test::TestConvexPolygoneIsConstructionPossible()
 {
-    return false;
+    //Polygone avec trop peu de point
+    Point * tabPoint = new Point[2];
+    string messageErreur = "";
+    bool constructionPossible = ConvexPolygone::IsConstructionPossible(tabPoint, 2, messageErreur);
+
+    responseToUser(constructionPossible, messageErreur);
 }
 
 //------------------------------------------------------- Surcharge d'operateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
 
-Draw::~Draw()
-{
-
-}
-
 //------------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------------- Methodes protegees
 
 //------------------------------------------------------------- Methodes privees
+void Test::responseToUser(bool response, const string &message)
+{
+    cout << (response ? "OK" : "ERR") << endl;
+
+    if(message!="")
+    {
+        cout << "# " << message << endl;
+    }
+}
