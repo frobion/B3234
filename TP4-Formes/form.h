@@ -10,9 +10,10 @@
 #define FORM_H
 
 //--------------------------------------------------------- Interfaces utilisées
-
 using namespace std;
 
+#include <string>
+#include "point.h"
 
 //------------------------------------------------------------------- Constantes
 
@@ -23,11 +24,15 @@ using namespace std;
 //
 //------------------------------------------------------------------------------
 
-class Form {
+class Form
+{
 //----------------------------------------------------------------------- PUBLIC
 
 public:
 //----------------------------------------------------------- Méthodes publiques
+    virtual bool Hit(Point p) = 0;
+    void Move(int dX, int dY);
+    virtual string GetInformation() = 0;
 
 //------------------------------------------------------- Surcharge d'opérateurs
 
@@ -48,6 +53,8 @@ private:
 
 protected:
 //----------------------------------------------------------- Attributs protégés
+  Point offset;
+  string name;
 
 private:
 //------------------------------------------------------------- Attributs privés

@@ -24,9 +24,24 @@ using namespace std;
 
 //----------------------------------------------------------- Methodes publiques
 
+bool Intersection::Hit(Point p)
+{
+    return false;
+}
+
+string Intersection::GetInformation()
+{
+    return "";
+}
+
 //------------------------------------------------------- Surcharge d'operateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
+
+Intersection::~Intersection()
+{
+
+}
 
 //------------------------------------------------------------------------ PRIVE
 

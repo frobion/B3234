@@ -9,10 +9,10 @@
 #if !defined ( INTERSECTION_H )
 #define INTERSECTION_H
 
-//--------------------------------------------------------- Interfaces utilisées
-
+//--------------------------------------------------------- Interfaces utilisée
 using namespace std;
 
+#include "Form.h"
 
 //------------------------------------------------------------------- Constantes
 
@@ -23,11 +23,14 @@ using namespace std;
 //
 //------------------------------------------------------------------------------
 
-class Intersection {
+class Intersection : public Form
+{
 //----------------------------------------------------------------------- PUBLIC
 
 public:
 //----------------------------------------------------------- Méthodes publiques
+    virtual bool Hit(Point p);
+    virtual string GetInformation();
 
 //------------------------------------------------------- Surcharge d'opérateurs
 

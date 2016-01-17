@@ -24,9 +24,24 @@ using namespace std;
 
 //----------------------------------------------------------- Methodes publiques
 
+bool Rectangle::Hit(Point p)
+{
+    return false;
+}
+
+string Rectangle::GetInformation()
+{
+    return "";
+}
+
 //------------------------------------------------------- Surcharge d'operateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
+
+Rectangle::~Rectangle()
+{
+
+}
 
 //------------------------------------------------------------------------ PRIVE
 

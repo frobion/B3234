@@ -24,9 +24,24 @@ using namespace std;
 
 //----------------------------------------------------------- Methodes publiques
 
+bool Segment::Hit(Point p)
+{
+    return false;
+}
+
+string Segment::GetInformation()
+{
+    return "";
+}
+
 //------------------------------------------------------- Surcharge d'operateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
+
+Segment::~Segment()
+{
+
+}
 
 //------------------------------------------------------------------------ PRIVE
 

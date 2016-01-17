@@ -24,9 +24,25 @@ using namespace std;
 
 //----------------------------------------------------------- Methodes publiques
 
+bool ConvexPolygone::Hit(Point p)
+{
+    return false;
+}
+
+string ConvexPolygone::GetInformation()
+{
+    return "";
+}
+
+
 //------------------------------------------------------- Surcharge d'operateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
+
+ConvexPolygone::~ConvexPolygone()
+{
+
+}
 
 //------------------------------------------------------------------------ PRIVE
 

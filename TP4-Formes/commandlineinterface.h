@@ -23,7 +23,8 @@ using namespace std;
 //
 //------------------------------------------------------------------------------
 
-class CommandLineInterface {
+class CommandLineInterface
+{
 //----------------------------------------------------------------------- PUBLIC
 
 public:

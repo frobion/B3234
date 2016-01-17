@@ -10,9 +10,9 @@
 #define RECTANGLE_H
 
 //--------------------------------------------------------- Interfaces utilisées
-
 using namespace std;
 
+#include "Form.h"
 
 //------------------------------------------------------------------- Constantes
 
@@ -23,11 +23,14 @@ using namespace std;
 //
 //------------------------------------------------------------------------------
 
-class Rectangle {
+class Rectangle : public Form
+{
 //----------------------------------------------------------------------- PUBLIC
 
 public:
 //----------------------------------------------------------- Méthodes publiques
+    virtual bool Hit(Point p);
+    virtual string GetInformation();
 
 //------------------------------------------------------- Surcharge d'opérateurs
 

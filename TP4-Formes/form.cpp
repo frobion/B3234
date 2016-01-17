@@ -24,9 +24,19 @@ using namespace std;
 
 //----------------------------------------------------------- Methodes publiques
 
+void Form::Move(int dX, int dY)
+{
+    offset.Move(dX, dY);
+}
+
 //------------------------------------------------------- Surcharge d'operateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
+
+Form::~Form()
+{
+
+}
 
 //------------------------------------------------------------------------ PRIVE
 

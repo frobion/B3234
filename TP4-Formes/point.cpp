@@ -24,9 +24,30 @@ using namespace std;
 
 //----------------------------------------------------------- Methodes publiques
 
+int Point::GetX()
+{
+    return x;
+}
+
+int Point::GetY()
+{
+    return y;
+}
+
+void Point::Move(int dx, int dy)
+{
+    this->x += x;
+    this->y += y;
+}
+
 //------------------------------------------------------- Surcharge d'operateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
+
+Point::~Point()
+{
+
+}
 
 //------------------------------------------------------------------------ PRIVE
 

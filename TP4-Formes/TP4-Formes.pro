@@ -12,20 +12,20 @@ TEMPLATE = app
 SOURCES += main.cpp\
     draw.cpp \
     form.cpp \
-    intesection.cpp \
     convexpolygone.cpp \
     union.cpp \
     segment.cpp \
     rectangle.cpp \
     commandlineinterface.cpp \
-    point.cpp
+    point.cpp \
+    intersection.cpp
 
 HEADERS += draw.h \
     form.h \
-    intesection.h \
     convexpolygone.h \
     union.h \
     segment.h \
     rectangle.h \
     commandlineinterface.h \
-    point.h
+    point.h \
+    intersection.h

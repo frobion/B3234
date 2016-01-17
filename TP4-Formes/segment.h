@@ -10,9 +10,9 @@
 #define SEGMENT_H
 
 //--------------------------------------------------------- Interfaces utilisées
-
 using namespace std;
 
+#include "Form.h"
 
 //------------------------------------------------------------------- Constantes
 
@@ -23,11 +23,14 @@ using namespace std;
 //
 //------------------------------------------------------------------------------
 
-class Segment {
+class Segment : public Form
+{
 //----------------------------------------------------------------------- PUBLIC
 
 public:
 //----------------------------------------------------------- Méthodes publiques
+    virtual bool Hit(Point p);
+    virtual string GetInformation();
 
 //------------------------------------------------------- Surcharge d'opérateurs
 

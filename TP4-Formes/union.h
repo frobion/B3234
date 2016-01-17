@@ -10,9 +10,10 @@
 #define UNION_H
 
 //--------------------------------------------------------- Interfaces utilisées
-
 using namespace std;
 
+#include "Form.h"
+#include "Point.h"
 
 //------------------------------------------------------------------- Constantes
 
@@ -23,18 +24,21 @@ using namespace std;
 //
 //------------------------------------------------------------------------------
 
-class Union {
+class Union : public Form
+{
 //----------------------------------------------------------------------- PUBLIC
 
 public:
 //----------------------------------------------------------- Méthodes publiques
+    virtual bool Hit(Point p);
+    virtual string GetInformation();
 
 //------------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
   Union(const Union &Union);
 
-  Union();
+  Union(Form * formList, int formListLength);
 
   virtual ~Union();
 
@@ -51,6 +55,8 @@ protected:
 
 private:
 //------------------------------------------------------------- Attributs privés
+  Form * formList;
+  int formListLength;
 
 //---------------------------------------------------------------- Classes amies
 
