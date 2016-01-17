@@ -39,7 +39,7 @@ public:
 //-------------------------------------------------- Constructeurs - destructeur
   Union(const Union &Union);
 
-  Union(Form * * formList, int formListLength);
+  Union(const string &name, Form * * formList, int formListLength);
 
   virtual ~Union();
 

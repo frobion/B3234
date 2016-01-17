@@ -37,9 +37,9 @@ public:
 //------------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
-  Form(const Form &Form);
+  Form(const Form &Form); // Constructeur de copie
 
-  Form();
+  Form(const string &name); // Constructeur
 
   virtual ~Form();
 

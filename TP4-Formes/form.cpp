@@ -33,7 +33,7 @@ void Form::Move(int dX, int dY)
 
 //-------------------------------------------------- Constructeurs - destructeur
 
-Form::Form()
+Form::Form(const string &name):name(name),offset()
 {
 
 }

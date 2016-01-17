@@ -29,8 +29,8 @@ class Point
 
 public:
 //----------------------------------------------------------- Méthodes publiques
-    int GetX();
-    int GetY();
+    int GetX() const ;
+    int GetY() const ;
     void Move(int dx, int dy);
 
 //------------------------------------------------------- Surcharge d'opérateurs
@@ -38,7 +38,7 @@ public:
 //-------------------------------------------------- Constructeurs - destructeur
   Point(const Point &Point);
 
-  Point();
+  Point(int x = 0, int y = 0);
 
   virtual ~Point();
 

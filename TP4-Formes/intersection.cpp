@@ -38,10 +38,6 @@ string Intersection::GetInformation()
 
 //-------------------------------------------------- Constructeurs - destructeur
 
-Intersection::Intersection()
-{
-
-}
 
 Intersection::~Intersection()
 {

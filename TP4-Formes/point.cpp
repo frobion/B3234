@@ -24,29 +24,36 @@ using namespace std;
 
 //----------------------------------------------------------- Methodes publiques
 
-int Point::GetX()
+int Point::GetX() const
 {
     return x;
 }
 
-int Point::GetY()
+int Point::GetY() const
 {
     return y;
 }
 
 void Point::Move(int dx, int dy)
 {
-    this->x += dx;
-    this->y += dy;
+    x += dx;
+    y += dy;
 }
 
 //------------------------------------------------------- Surcharge d'operateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
 
-Point::Point()
+
+Point::Point(int x, int y): x(x), y(y)
 {
 
+}
+
+Point::Point(const Point &point)
+{
+    this->x = point.GetX();
+    this->y = point.GetY();
 }
 
 Point::~Point()

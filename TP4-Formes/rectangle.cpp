@@ -26,7 +26,7 @@ using namespace std;
 
 bool Rectangle::Hit(Point p)
 {
-    return false;
+    return (p.GetX()>= topLeft.GetX() && p.GetY() <= topLeft.GetY() && p.GetX() <= bottomRight.GetX() && p.GetY() >= bottomRight.GetY());
 }
 
 string Rectangle::GetInformation()
@@ -37,6 +37,11 @@ string Rectangle::GetInformation()
 //------------------------------------------------------- Surcharge d'operateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
+
+Rectangle::Rectangle(const string &name,const Point &topLeft, const Point &bottomRight ): Form(name), topLeft(topLeft), bottomRight(bottomRight)
+{
+
+}
 
 Rectangle::~Rectangle()
 {

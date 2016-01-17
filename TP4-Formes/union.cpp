@@ -32,22 +32,30 @@ bool Union::Hit(Point p)
 
 string Union::GetInformation()
 {
-    return "";
+    string rtn = "";
+    for (int i = 0; i < formListLength; i++)
+    {
+
+    }
 }
 
 //------------------------------------------------------- Surcharge d'operateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
 
-Union::Union(Form * * formList, int formListLength) : formListLength(formListLength)
+
+Union::Union(const string &name, Form * * formList, int formListLength) : Form(name), formListLength(formListLength)
 {
-    * formList [formListLength];
+
+    this->formList [formListLength];
     for (int i = 0; i < formListLength; i++)
     {
         this->formList[i] = formList[i]; // Appel au constructeur de copie de
                                          // chacune des formes
     }
+
 }
+
 
 Union::~Union()
 {
