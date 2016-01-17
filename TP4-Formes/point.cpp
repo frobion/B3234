@@ -36,13 +36,18 @@ int Point::GetY()
 
 void Point::Move(int dx, int dy)
 {
-    this->x += x;
-    this->y += y;
+    this->x += dx;
+    this->y += dy;
 }
 
 //------------------------------------------------------- Surcharge d'operateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
+
+Point::Point()
+{
+
+}
 
 Point::~Point()
 {

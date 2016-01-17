@@ -14,6 +14,7 @@ using namespace std;
 
 #include "Form.h"
 #include "Point.h"
+#include "intersection.h"
 
 //------------------------------------------------------------------- Constantes
 
@@ -38,7 +39,7 @@ public:
 //-------------------------------------------------- Constructeurs - destructeur
   Union(const Union &Union);
 
-  Union(Form * formList, int formListLength);
+  Union(Form * * formList, int formListLength);
 
   virtual ~Union();
 
@@ -55,7 +56,7 @@ protected:
 
 private:
 //------------------------------------------------------------- Attributs privés
-  Form * formList;
+  Form * * formList;
   int formListLength;
 
 //---------------------------------------------------------------- Classes amies

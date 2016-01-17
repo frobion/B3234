@@ -12,6 +12,7 @@ using namespace std;
 
 //------------------------------------------------------------ Include personnel
 #include "Union.h"
+#include "intersection.h"
 
 //------------------------------------------------------------------- Constantes
 
@@ -38,9 +39,9 @@ string Union::GetInformation()
 
 //-------------------------------------------------- Constructeurs - destructeur
 
-Union::Union(Form * formList, int formListLength) : formListLength(formListLength)
+Union::Union(Form * * formList, int formListLength) : formListLength(formListLength)
 {
-    this->formList = new Form[formListLength];
+    * formList [formListLength];
     for (int i = 0; i < formListLength; i++)
     {
         this->formList[i] = formList[i]; // Appel au constructeur de copie de
