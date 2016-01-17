@@ -38,15 +38,19 @@ string Union::GetInformation()
 
 //-------------------------------------------------- Constructeurs - destructeur
 
+/*
 Union::Union(Form * formList, int formListLength) : formListLength(formListLength)
 {
+
     this->formList = new Form[formListLength];
     for (int i = 0; i < formListLength; i++)
     {
         this->formList[i] = formList[i]; // Appel au constructeur de copie de
                                          // chacune des formes
     }
+
 }
+*/
 
 Union::~Union()
 {

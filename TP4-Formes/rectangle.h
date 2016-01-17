@@ -37,7 +37,7 @@ public:
 //-------------------------------------------------- Constructeurs - destructeur
   Rectangle(const Rectangle &Rectangle);
 
-  Rectangle();
+  Rectangle(const string &name, const Point &topLeft, const Point &bottomRight);
 
   virtual ~Rectangle();
 
@@ -54,7 +54,8 @@ protected:
 
 private:
 //------------------------------------------------------------- Attributs privés
-
+Point topLeft;
+Point bottomRight;
 //---------------------------------------------------------------- Classes amies
 
 //-------------------------------------------------------------- Classes privées

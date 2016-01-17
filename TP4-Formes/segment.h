@@ -37,7 +37,7 @@ public:
 //-------------------------------------------------- Constructeurs - destructeur
   Segment(const Segment &Segment);
 
-  Segment();
+  Segment(const string &name,const Point &extremity1, const Point &extremity2);
 
   virtual ~Segment();
 
@@ -54,7 +54,8 @@ protected:
 
 private:
 //------------------------------------------------------------- Attributs privés
-
+Point extremity1;
+Point extremity2;
 //---------------------------------------------------------------- Classes amies
 
 //-------------------------------------------------------------- Classes privées
