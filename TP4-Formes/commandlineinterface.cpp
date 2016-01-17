@@ -137,16 +137,16 @@ void CommandLineInterface::createSegment()
     Point p1(x1,y1);
     Point p2(x2,y2);
     Segment* s;
-    string messageErreur = "";
-    bool constructionPossible = false;
+    string errorMessage = "";
+    bool isCconstructionPossible = false;
 
-    if(Segment::IsConstructionPossible(p1, p2, messageErreur))
+    if(Segment::IsConstructionPossible(p1, p2, errorMessage))
     {
         s = new Segment(name, p1, p2);
-        constructionPossible = draw.AddForm(name, s, messageErreur);
+        isCconstructionPossible = draw.AddForm(name, s, errorMessage);
 
     }
-    responseToUser(constructionPossible, messageErreur);
+    responseToUser(isCconstructionPossible, errorMessage);
 }
 
 void CommandLineInterface::createRectangle()
@@ -162,16 +162,16 @@ void CommandLineInterface::createRectangle()
     Point p1(x1,y1);
     Point p2(x2,y2);
     Rectangle* r;
-    string messageErreur = "";
-    bool constructionPossible = false;
+    string errorMessage = "";
+    bool isCconstructionPossible = false;
 
-    if(Rectangle::IsConstructionPossible(p1, p2, messageErreur))
+    if(Rectangle::IsConstructionPossible(p1, p2, errorMessage))
     {
         r = new Rectangle(name, p1, p2);
-        constructionPossible = draw.AddForm(name, r, messageErreur);
+        isCconstructionPossible = draw.AddForm(name, r, errorMessage);
 
     }
-    responseToUser(constructionPossible, messageErreur);
+    responseToUser(isCconstructionPossible, errorMessage);
 }
 
 //void CommandLineInterface::createConvexPolygone()
