@@ -12,6 +12,8 @@
 //--------------------------------------------------------- Interfaces utilisées
 using namespace std;
 
+#include <vector>
+
 #include "Form.h"
 
 //------------------------------------------------------------------- Constantes
@@ -32,7 +34,7 @@ public:
     virtual bool Hit(Point p);
     virtual string GetInformation();
 
-    static bool IsConstructionPossible(const Point * pointList,
+    static bool IsConstructionPossible(vector<Point> pointList,
                                        int pointNumber, string &errorMessage);
 
 //------------------------------------------------------- Surcharge d'opérateurs
@@ -40,7 +42,7 @@ public:
 //-------------------------------------------------- Constructeurs - destructeur
   ConvexPolygone(const ConvexPolygone &ConvexPolygone);
 
-  ConvexPolygone(const string &name, const Point *, int pointNumber);
+  ConvexPolygone(const string &name, vector<Point> pointList, int pointNumber);
 
   virtual ~ConvexPolygone();
 

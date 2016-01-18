@@ -36,7 +36,7 @@ string ConvexPolygone::GetInformation()
     return "";
 }
 
-bool ConvexPolygone::IsConstructionPossible(const Point *pointList, int pointNumber, string &errorMessage)
+bool ConvexPolygone::IsConstructionPossible(vector<Point> pointList, int pointNumber, string &errorMessage)
 // Un polygone est convexe ssi pour tout triplet de sommets consecutif B, A, C,
 // sin(AB, AC) est de signe constant
 {
@@ -88,7 +88,7 @@ bool ConvexPolygone::IsConstructionPossible(const Point *pointList, int pointNum
 
 //-------------------------------------------------- Constructeurs - destructeur
 
-ConvexPolygone::ConvexPolygone(const string &name, const Point *, int pointNumber) : Form(name)
+ConvexPolygone::ConvexPolygone(const string &name, vector<Point> pointList, int pointNumber) : Form(name)
 {
 
 }
