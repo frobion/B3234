@@ -11,6 +11,7 @@
 using namespace std;
 
 #include <iostream>
+#include <vector>
 
 //------------------------------------------------------------ Include personnel
 #include "CommandLineInterface.h"
@@ -20,6 +21,7 @@ using namespace std;
 #include "convexpolygone.h"
 #include "union.h"
 #include "intersection.h"
+
 
 //------------------------------------------------------------------- Constantes
 
@@ -46,10 +48,10 @@ int CommandLineInterface::waitForCommand()
         {
             createRectangle();
         }
-//        else if( nextAction == "PC" )
-//        {
-//            createConvexPolygone();
-//        }
+        else if( nextAction == "PC" )
+        {
+            createConvexPolygone();
+        }
 //        else if( nextAction == "OR" )
 //        {
 //            createReunion();
@@ -138,15 +140,15 @@ void CommandLineInterface::createSegment()
     Point p2(x2,y2);
     Segment* s;
     string errorMessage = "";
-    bool isCconstructionPossible = false;
+    bool isConstructionPossible = false;
 
     if(Segment::IsConstructionPossible(p1, p2, errorMessage))
     {
         s = new Segment(name, p1, p2);
-        isCconstructionPossible = draw.AddForm(name, s, errorMessage);
+        isConstructionPossible = draw.AddForm(name, s, errorMessage);
 
     }
-    responseToUser(isCconstructionPossible, errorMessage);
+    responseToUser(isConstructionPossible, errorMessage);
 }
 
 void CommandLineInterface::createRectangle()
@@ -163,54 +165,58 @@ void CommandLineInterface::createRectangle()
     Point p2(x2,y2);
     Rectangle* r;
     string errorMessage = "";
-    bool isCconstructionPossible = false;
+    bool isConstructionPossible = false;
 
     if(Rectangle::IsConstructionPossible(p1, p2, errorMessage))
     {
         r = new Rectangle(name, p1, p2);
-        isCconstructionPossible = draw.AddForm(name, r, errorMessage);
+        isConstructionPossible = draw.AddForm(name, r, errorMessage);
 
     }
-    responseToUser(isCconstructionPossible, errorMessage);
+    responseToUser(isConstructionPossible, errorMessage);
 }
 
-//void CommandLineInterface::createConvexPolygone()
-//{
-//    string read;
-//    string name;
-//    int buffer=0;
-//    unsigned int counter=0;
-//    vector<Point> parametersArray;
+void CommandLineInterface::createConvexPolygone()
+{
 
-//    do{
-//        getline(cin, read, ' ');
-//        counter++;
-//        if(counter==1)
-//        {
-//            name = read;
-//        }
-//        else if(counter!=1 && counter&1==true) // Compteur impair
-//        {
-//            parametersArray.push_back(Point(buffer, read));
-//        }
-//        buffer = read;
+    string read;
+    string name;
+    int buffer=0;
+    int read2;
+    unsigned int counter=0;
+    vector<Point> parametersArray;
 
-//    }while(read != ' ');
+    do{
+        getline(cin, read, ' ');
+        counter++;
+        if(counter==1)
+        {
+            name = read;
+        }
+        else if(counter!=1 && (counter&1) == true) // Compteur impair
+        {
+            read2 = stoi(read);
+            parametersArray.push_back(Point(buffer, read2));
+        }
+        buffer = read2;
 
-//    if(!counter&1)  // Si on a un nombre total pair de parametres
-//    {
-//       responseToUser(false, "Le nombre de paramètres est incorrect");
-//    }
+    }while(read != "\n");
 
-//    Rectangle* r;
-//    string messageError = "";
-//    bool constructionPossible = false;
+    if(!counter&1)  // Si on a un nombre total pair de parametres
+    {
+       responseToUser(false, "Le nombre de paramètres est incorrect");
+    }
 
-//    if(ConvexPolygone::isConstructionPossible(p1, p2, messageError))
-//    {
-//        r = new ConvexPolygone(name, p1, p2);
-//        constructionPossible = draw.AddForm(name, r, messageError);
+    ConvexPolygone* convexPoly;
+    string errorMessage = "";
+    bool constructionPossible = false;
+    int pointNumber=parametersArray.size();
 
-//    }
-//    responseToUser(constructionPossible, messageErreur);
-//}
+    if(ConvexPolygone::IsConstructionPossible(parametersArray, pointNumber, errorMessage))
+    {
+        convexPoly = new ConvexPolygone(name, parametersArray, pointNumber);
+        constructionPossible = draw.AddForm(name, convexPoly, errorMessage);
+
+    }
+    responseToUser(constructionPossible, errorMessage);
+}

@@ -38,9 +38,9 @@ void Test::TestConvexPolygoneIsConstructionPossible()
     //Polygone avec trop peu de point
     Point * tabPoint = new Point[2];
     string messageErreur = "";
-    bool constructionPossible = ConvexPolygone::IsConstructionPossible(tabPoint, 2, messageErreur);
+    //bool constructionPossible = ConvexPolygone::IsConstructionPossible(tabPoint, 2, messageErreur);
 
-    responseToUser(constructionPossible, messageErreur);
+    //responseToUser(constructionPossible, messageErreur);
 }
 
 void Test::TestConstructeurUnion()
