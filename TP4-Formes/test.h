@@ -33,6 +33,7 @@ public:
 //----------------------------------------------------------- Méthodes publiques
     static void TestConvexPolygoneIsConstructionPossible();
     static void TestConstructeurUnion();
+    static void TestConstructeur();
 
 //------------------------------------------------------- Surcharge d'opérateurs
 

@@ -30,4 +30,5 @@ HEADERS += draw.h \
     commandlineinterface.h \
     point.h \
     intersection.h \
-    test.h
+    test.h \
+    config.h

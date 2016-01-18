@@ -17,6 +17,9 @@ int main()
     cout << endl << "TestConstructeurUnion" << endl << endl;
     Test::TestConstructeurUnion();
 
+    cout << endl << "TestConstructeur" << endl << endl;
+    Test::TestConstructeur();
+
     cout << "fin" << endl;
     return 0;
 }

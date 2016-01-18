@@ -34,15 +34,15 @@ public:
     virtual bool Hit(Point p);
     virtual string GetInformation();
 
-    static bool IsConstructionPossible(vector<Point> pointList,
-                                       int pointNumber, string &errorMessage);
+    static bool IsConstructionPossible(const vector<Point> &pointList,
+                                       string &errorMessage);
 
 //------------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
   ConvexPolygone(const ConvexPolygone &ConvexPolygone);
 
-  ConvexPolygone(const string &name, vector<Point> pointList, int pointNumber);
+  ConvexPolygone(const string &name, const vector<Point> &pointList);
 
   virtual ~ConvexPolygone();
 

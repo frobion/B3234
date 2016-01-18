@@ -14,8 +14,12 @@
 using namespace std;
 
 #include <string>
+#include <vector>
+#include <iostream>
+#include <map>
 
 #include "form.h"
+#include "config.h"
 
 
 //------------------------------------------------------------------- Constantes
@@ -34,6 +38,11 @@ class Draw
 public:
 //----------------------------------------------------------- Méthodes publiques
     bool AddForm(const string &name, Form * form, string &errorMessage);
+    bool Delete(const vector<string> &nameList, string &errorMessage);
+    void Enumerate(ostream &out);
+    void Clear();
+    bool Hit(const string &name, int x, int y, string &errorMessage);
+    bool Move(const string &name, int dX, int dY, string &errorMessage);
 
 //------------------------------------------------------- Surcharge d'opérateurs
 
@@ -57,6 +66,7 @@ protected:
 
 private:
 //------------------------------------------------------------- Attributs privés
+  map<string, Form*> formMap;
 
 //---------------------------------------------------------------- Classes amies
 

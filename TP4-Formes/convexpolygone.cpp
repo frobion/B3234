@@ -36,11 +36,11 @@ string ConvexPolygone::GetInformation()
     return "";
 }
 
-bool ConvexPolygone::IsConstructionPossible(vector<Point> pointList, int pointNumber, string &errorMessage)
+bool ConvexPolygone::IsConstructionPossible(const vector<Point> &pointList, string &errorMessage)
 // Un polygone est convexe ssi pour tout triplet de sommets consecutif B, A, C,
 // sin(AB, AC) est de signe constant
 {
-    if (pointNumber < 3)
+    if (pointList.size() < 3)
     {
         errorMessage = "Nombre de point insuffisant";
         return false;
@@ -48,7 +48,7 @@ bool ConvexPolygone::IsConstructionPossible(vector<Point> pointList, int pointNu
 
 
     bool sinusThetaIsPositif;
-    double currentSinusTheta = getSinusThetaABAC(pointList[0], pointList[pointNumber - 1], pointList[1]);
+    double currentSinusTheta = getSinusThetaABAC(pointList[0], pointList[pointList.size() - 1], pointList[1]);
     if (currentSinusTheta < 0)
     {
         sinusThetaIsPositif = false;
@@ -64,9 +64,9 @@ bool ConvexPolygone::IsConstructionPossible(vector<Point> pointList, int pointNu
     }
 
 
-    for (int i = 1; i < pointNumber; i++)
+    for (int i = 1; i < pointList.size(); i++)
     {
-        currentSinusTheta = getSinusThetaABAC(pointList[i], pointList[i - 1], pointList[(i + 1) % pointNumber]);
+        currentSinusTheta = getSinusThetaABAC(pointList[i], pointList[i - 1], pointList[(i + 1) % pointList.size()]);
         if (currentSinusTheta == 0)
         {
             errorMessage = "Point alignes";
@@ -88,7 +88,7 @@ bool ConvexPolygone::IsConstructionPossible(vector<Point> pointList, int pointNu
 
 //-------------------------------------------------- Constructeurs - destructeur
 
-ConvexPolygone::ConvexPolygone(const string &name, vector<Point> pointList, int pointNumber) : Form(name)
+ConvexPolygone::ConvexPolygone(const string &name, const vector<Point> &pointList) : Form(name)
 {
 
 }
@@ -106,9 +106,9 @@ ConvexPolygone::~ConvexPolygone()
 
 double ConvexPolygone::getSinusThetaABAC(const Point &a, const Point &b, const Point &c)
 {
-    if (!a.IsDifferent(b)) // division par 0 dans la suite
+    if (!a.IsDifferent(b))
     {
-        return 0;
+        return 0; // Deux point identiques et un troisieme point sont considérées alignés
     }
 
     double xA = a.GetX();

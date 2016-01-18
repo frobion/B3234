@@ -36,8 +36,8 @@ using namespace std;
 void Test::TestConvexPolygoneIsConstructionPossible()
 {
     //Polygone avec trop peu de point
-    Point * tabPoint = new Point[2];
     string messageErreur = "";
+
     //bool constructionPossible = ConvexPolygone::IsConstructionPossible(tabPoint, 2, messageErreur);
 
     //responseToUser(constructionPossible, messageErreur);
@@ -73,6 +73,16 @@ void Test::TestConstructeurUnion()
         cout << formList[i]->GetInformation() << endl;
     }
     cout << endl << u.GetInformation() << endl;
+}
+
+void Test::TestConstructeur()
+{
+    Point p1(1, 0);
+    Point p2(0, 1);
+    Rectangle r("r", p1, p2);
+    cout << r.GetInformation() << endl;
+    p1.Move(1, 1);
+    cout << r.GetInformation() << endl;
 }
 
 //------------------------------------------------------- Surcharge d'operateurs

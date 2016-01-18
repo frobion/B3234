@@ -210,11 +210,10 @@ void CommandLineInterface::createConvexPolygone()
     ConvexPolygone* convexPoly;
     string errorMessage = "";
     bool constructionPossible = false;
-    int pointNumber=parametersArray.size();
 
-    if(ConvexPolygone::IsConstructionPossible(parametersArray, pointNumber, errorMessage))
+    if(ConvexPolygone::IsConstructionPossible(parametersArray, errorMessage))
     {
-        convexPoly = new ConvexPolygone(name, parametersArray, pointNumber);
+        convexPoly = new ConvexPolygone(name, parametersArray);
         constructionPossible = draw.AddForm(name, convexPoly, errorMessage);
 
     }
