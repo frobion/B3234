@@ -31,7 +31,8 @@ class Test
 
 public:
 //----------------------------------------------------------- Méthodes publiques
-    static bool TestConvexPolygoneIsConstructionPossible();
+    static void TestConvexPolygoneIsConstructionPossible();
+    static void TestConstructeurUnion();
 
 //------------------------------------------------------- Surcharge d'opérateurs
 

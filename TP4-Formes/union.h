@@ -12,6 +12,8 @@
 //--------------------------------------------------------- Interfaces utilisées
 using namespace std;
 
+#include <vector>
+
 #include "Form.h"
 #include "Point.h"
 #include "intersection.h"
@@ -39,7 +41,7 @@ public:
 //-------------------------------------------------- Constructeurs - destructeur
   Union(const Union &Union);
 
-  Union(const string &name, Form * * formList, int formListLength);
+  Union(const string &name, Form** formList, int formNumber);
 
   virtual ~Union();
 
@@ -56,7 +58,7 @@ protected:
 
 private:
 //------------------------------------------------------------- Attributs privés
-  Form * * formList;
+  Form** formList;
   int formListLength;
 
 //---------------------------------------------------------------- Classes amies

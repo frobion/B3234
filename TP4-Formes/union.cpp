@@ -27,15 +27,24 @@ using namespace std;
 
 bool Union::Hit(Point p)
 {
+    p.Move(-offset.GetX(), -offset.GetY());
+
+    for (int i = 0; i < formListLength; i++)
+    {
+        if (formList[i]->Hit(p))
+        {
+            return true;
+        }
+    }
     return false;
 }
 
 string Union::GetInformation()
 {
-    string rtn = "";
+    string rtn = "U\r\n";
     for (int i = 0; i < formListLength; i++)
     {
-        rtn += formList[i]->GetInformation() + "\r\n";
+        rtn += "  " + formList[i]->GetInformation() + "\r\n";
     }
     return rtn;
 }
@@ -45,16 +54,13 @@ string Union::GetInformation()
 //-------------------------------------------------- Constructeurs - destructeur
 
 
-Union::Union(const string &name, Form * * formList, int formListLength) : Form(name), formListLength(formListLength)
+Union::Union(const string &name, Form ** formList, int formNumber) : Form(name), formListLength(formNumber)
 {
-
-    this->formList [formListLength];
+    this->formList = new Form* [formListLength];
     for (int i = 0; i < formListLength; i++)
     {
-        this->formList[i] = formList[i]; // Appel au constructeur de copie de
-                                         // chacune des formes
+        this->formList[i] = formList[i];
     }
-
 }
 
 

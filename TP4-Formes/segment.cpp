@@ -50,8 +50,8 @@ bool Segment::Hit(Point p)
 
 string Segment::GetInformation()
 {
-    return ("S " + name + " " + to_string(extremity1.GetX()) + " " + to_string(extremity1.GetY()) + " "
-            + to_string(extremity2.GetX()) + " " + to_string(extremity2.GetY()));
+    return ("S " + name + " " + to_string(extremity1.GetX() + offset.GetX()) + " " + to_string(extremity1.GetY() + offset.GetY()) + " "
+            + to_string(extremity2.GetX() + offset.GetX()) + " " + to_string(extremity2.GetY() + offset.GetY()));
 }
 
 bool Segment::IsConstructionPossible(const Point &extremity1, const Point &extremity2, string &errorMessage)

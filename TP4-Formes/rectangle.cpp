@@ -31,8 +31,8 @@ bool Rectangle::Hit(Point p)
 
 string Rectangle::GetInformation()
 {
-    return ("R " + name + " " + to_string(topLeft.GetX()) + " " + to_string(topLeft.GetY()) +
-            " " + to_string(bottomRight.GetX()) + " " + to_string(bottomRight.GetY()));
+    return ("R " + name + " " + to_string(topLeft.GetX() + offset.GetX()) + " " + to_string(topLeft.GetY() + offset.GetY()) +
+            " " + to_string(bottomRight.GetX() + offset.GetX()) + " " + to_string(bottomRight.GetY() + offset.GetY()));
 }
 
 bool Rectangle::IsConstructionPossible(const Point &topLeft, const Point &bottomRight, string &errorMessage)
