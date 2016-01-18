@@ -1,0 +1,9 @@
+R Rectangle1 1 3 6 0
+S Segment1 0 0 1 1
+PC PolygoneConvex1 1 1 3 -5 -2 -1
+OR Reunion1 Rectangle1 Segment1
+OI Intersection1 Rectangle1 Segment1
+OR Reunion2 Reunion1 Intersection1 PolygoneConvex1
+LIST
+EXIT
+

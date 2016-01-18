@@ -1,0 +1,5 @@
+R Rectangle1 1 3 6 0
+MOVE Rectangle1 0 0
+LIST
+EXIT
+

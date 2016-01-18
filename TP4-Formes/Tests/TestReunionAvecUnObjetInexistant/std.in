@@ -1,0 +1,6 @@
+S Segment1 0 0 1 1
+R Rectangle1 1 3 6 0
+OR Reunion1 Segment1 Segment2 Rectangle1
+LIST
+EXIT
+

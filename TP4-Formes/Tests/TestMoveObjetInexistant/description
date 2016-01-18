@@ -1,0 +1,1 @@
+On teste quand on essai de deplacer un objet qui n'existe pas, une erreur doit etre renvoyee. 

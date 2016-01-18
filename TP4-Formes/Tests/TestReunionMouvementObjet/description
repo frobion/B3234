@@ -1,0 +1,2 @@
+On teste quand on cree une reunion d'objet, et qu'on essai ensuite de bouger un element qui a ete copier dans la reunion.
+L'element doit bouger, mais pas la copie presente dans la reunion. 

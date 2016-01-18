@@ -1,0 +1,2 @@
+On teste quand on cree une intersection d'objet, et qu'on essai ensuite de bouger un element qui a ete copier dans cette intersection.
+L'element doit bouger, mais pas la copie presente dans l'intersection. 
