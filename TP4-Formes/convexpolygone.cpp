@@ -14,6 +14,7 @@ using namespace std;
 
 //------------------------------------------------------------ Include personnel
 #include "ConvexPolygone.h"
+#include "config.h"
 
 //------------------------------------------------------------------- Constantes
 
@@ -27,59 +28,77 @@ using namespace std;
 //----------------------------------------------------------- Methodes publiques
 
 bool ConvexPolygone::Hit(Point p)
+// Un point est dans un polygone convexe ssi il est toujours a gauche
+// (respectivement a droite) des segments orientes du polygone
+// Le point considere est toujours le point C, le premier point du
+// segment le point A, et le deuxieme point du segment le point B
+// dans le calcul sin(AB, AC)
 {
+    double currentSinusABAC = getSinusABAC(pointList[pointList.size() - 1], pointList[0], p);
+    bool isSinusABACPositif = currentSinusABAC > 0;
+
+    for (uint i = 0; i < pointList.size() - 1; i++)
+    {
+        currentSinusABAC = getSinusABAC(pointList[i], pointList[i + 1], p);
+        if((currentSinusABAC > 0 && !isSinusABACPositif) || (currentSinusABAC < 0 && isSinusABACPositif))
+        {
+            return false;
+        }
+    }
     return false;
 }
 
 string ConvexPolygone::GetInformation()
 {
-    return "";
+    string rtn = "PC " + name;
+
+    for (uint i = 0; i < pointList.size(); i++)
+    {
+        pointList[i] += offset;
+        rtn += " " + to_string(pointList[i].GetX()) + " " + to_string(pointList[i].GetY());
+    }
+    offset.Reset();
+
+    return rtn;
 }
 
-bool ConvexPolygone::IsConstructionPossible(const vector<Point> &pointList, string &errorMessage)
+ConvexPolygone* ConvexPolygone::GetConvexPolygone(const string &name, const vector<Point> &pointList, string &errorMessage)
 // Un polygone est convexe ssi pour tout triplet de sommets consecutif B, A, C,
 // sin(AB, AC) est de signe constant
 {
     if (pointList.size() < 3)
     {
-        errorMessage = "Nombre de point insuffisant";
-        return false;
+        errorMessage = "Nombre de points insuffisants";
+        return nullptr;
     }
 
 
     bool sinusThetaIsPositif;
-    double currentSinusTheta = getSinusThetaABAC(pointList[0], pointList[pointList.size() - 1], pointList[1]);
-    if (currentSinusTheta < 0)
+    double currentSinusABAC= getSinusABAC(pointList[0], pointList[pointList.size() - 1], pointList[1]);
+    if (currentSinusABAC == 0)
     {
-        sinusThetaIsPositif = false;
+        errorMessage = "Points alignes";
+        return nullptr;
     }
-    else if(currentSinusTheta > 0)
-    {
-        sinusThetaIsPositif = true;
-    }
-    else
-    {
-        errorMessage = "Point alignes";
-        return false;
-    }
+    sinusThetaIsPositif = (currentSinusABAC > 0);
 
 
-    for (int i = 1; i < pointList.size(); i++)
+    for (uint i = 1; i < pointList.size(); i++)
     {
-        currentSinusTheta = getSinusThetaABAC(pointList[i], pointList[i - 1], pointList[(i + 1) % pointList.size()]);
-        if (currentSinusTheta == 0)
+        currentSinusABAC = getSinusABAC(pointList[i], pointList[i - 1], pointList[(i + 1) % pointList.size()]);
+        if (currentSinusABAC == 0)
         {
-            errorMessage = "Point alignes";
-            return false;
+            errorMessage = "Points alignes";
+            return nullptr;
         }
-        else if (currentSinusTheta < 0 && !sinusThetaIsPositif || currentSinusTheta > 0 && sinusThetaIsPositif)
+        else if ((currentSinusABAC < 0 && !sinusThetaIsPositif) || (currentSinusABAC > 0 && sinusThetaIsPositif))
         {
             errorMessage = "Polygone non convexe";
-            return false;
+            return nullptr;
         }
     }
 
-    return true;
+    return new ConvexPolygone(name, pointList);
 
 }
 
@@ -90,7 +109,10 @@ bool ConvexPolygone::IsConstructionPossible(const vector<Point> &pointList, stri
 
 ConvexPolygone::ConvexPolygone(const string &name, const vector<Point> &pointList) : Form(name)
 {
-
+    for (uint i = 0; i < pointList.size(); i++)
+    {
+        this->pointList[i] = pointList[i];
+    }
 }
 
 ConvexPolygone::~ConvexPolygone()
@@ -104,7 +126,7 @@ ConvexPolygone::~ConvexPolygone()
 
 //------------------------------------------------------------- Methodes privees
 
-double ConvexPolygone::getSinusThetaABAC(const Point &a, const Point &b, const Point &c)
+double ConvexPolygone::getSinusABAC(const Point &a, const Point &b, const Point &c)
 {
     if (!a.IsDifferent(b))
     {

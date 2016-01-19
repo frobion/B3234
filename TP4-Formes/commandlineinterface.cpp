@@ -138,15 +138,13 @@ void CommandLineInterface::createSegment()
 
     Point p1(x1,y1);
     Point p2(x2,y2);
-    Segment* s;
     string errorMessage = "";
     bool isConstructionPossible = false;
+    Segment* s = Segment::GetSegment(name, p1, p2, errorMessage);
 
-    if(Segment::IsConstructionPossible(p1, p2, errorMessage))
+    if(s != nullptr)
     {
-        s = new Segment(name, p1, p2);
         isConstructionPossible = draw.AddForm(name, s, errorMessage);
-
     }
     responseToUser(isConstructionPossible, errorMessage);
 }
@@ -163,15 +161,13 @@ void CommandLineInterface::createRectangle()
 
     Point p1(x1,y1);
     Point p2(x2,y2);
-    Rectangle* r;
     string errorMessage = "";
     bool isConstructionPossible = false;
+    Rectangle* r = Rectangle::GetRectangle(name, p1, p2, errorMessage);
 
-    if(Rectangle::IsConstructionPossible(p1, p2, errorMessage))
+    if(r != nullptr)
     {
-        r = new Rectangle(name, p1, p2);
         isConstructionPossible = draw.AddForm(name, r, errorMessage);
-
     }
     responseToUser(isConstructionPossible, errorMessage);
 }
@@ -179,43 +175,53 @@ void CommandLineInterface::createRectangle()
 void CommandLineInterface::createConvexPolygone()
 {
 
-    string read;
+//    string read;
+//    string name;
+//    int buffer=0;
+//    int read2;
+//    unsigned int counter=0;
+//    vector<Point> parametersArray;
+
+//    do{
+//        getline(cin, read, ' ');
+//        counter++;
+//        if(counter==1)
+//        {
+//            name = read;
+//        }
+//        else if(counter!=1 && (counter&1) == true) // Compteur impair
+//        {
+//            read2 = stoi(read);
+//            parametersArray.push_back(Point(buffer, read2));
+//        }
+//        buffer = read2;
+
+//    }while(read != "\n");
+
+//    if(!counter&1)  // Si on a un nombre total pair de parametres
+//    {
+//       responseToUser(false, "Le nombre de paramètres est incorrect");
+//    }
+
     string name;
-    int buffer=0;
-    int read2;
-    unsigned int counter=0;
+    int x;
+    int y;
     vector<Point> parametersArray;
 
-    do{
-        getline(cin, read, ' ');
-        counter++;
-        if(counter==1)
-        {
-            name = read;
-        }
-        else if(counter!=1 && (counter&1) == true) // Compteur impair
-        {
-            read2 = stoi(read);
-            parametersArray.push_back(Point(buffer, read2));
-        }
-        buffer = read2;
-
-    }while(read != "\n");
-
-    if(!counter&1)  // Si on a un nombre total pair de parametres
+    cin >> name;
+    while(cin.peek() != '\n')
     {
-       responseToUser(false, "Le nombre de paramètres est incorrect");
+        cin >> x >> y;
+        parametersArray.push_back(Point(x, y));
     }
 
-    ConvexPolygone* convexPoly;
     string errorMessage = "";
     bool constructionPossible = false;
+    ConvexPolygone* cP = ConvexPolygone::GetConvexPolygone(name, parametersArray, errorMessage);
 
-    if(ConvexPolygone::IsConstructionPossible(parametersArray, errorMessage))
+    if(cP != nullptr)
     {
-        convexPoly = new ConvexPolygone(name, parametersArray);
-        constructionPossible = draw.AddForm(name, convexPoly, errorMessage);
-
+        constructionPossible = draw.AddForm(name, cP, errorMessage);
     }
     responseToUser(constructionPossible, errorMessage);
 }

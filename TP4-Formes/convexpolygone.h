@@ -15,6 +15,7 @@ using namespace std;
 #include <vector>
 
 #include "Form.h"
+#include "point.h"
 
 //------------------------------------------------------------------- Constantes
 
@@ -34,15 +35,15 @@ public:
     virtual bool Hit(Point p);
     virtual string GetInformation();
 
-    static bool IsConstructionPossible(const vector<Point> &pointList,
-                                       string &errorMessage);
+    static ConvexPolygone* GetConvexPolygone(const string &name, const vector<Point> &pointList,
+                                             string &errorMessage);
 
 //------------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
   ConvexPolygone(const ConvexPolygone &ConvexPolygone);
 
-  ConvexPolygone(const string &name, const vector<Point> &pointList);
+  ConvexPolygone(); // Constructeur par defaut declare mais non defini
 
   virtual ~ConvexPolygone();
 
@@ -54,13 +55,17 @@ protected:
 private:
 //------------------------------------------------------------- Methodes privées
 
-  static double getSinusThetaABAC(const Point &a, const Point &b, const Point &c);
+  static double getSinusABAC(const Point &a, const Point &b, const Point &c);
+
+//------------------------------------------------------------------Constructeur
+  ConvexPolygone(const string &name, const vector<Point> &pointList);
 
 protected:
 //----------------------------------------------------------- Attributs protégés
 
 private:
 //------------------------------------------------------------- Attributs privés
+  vector<Point> pointList;
 
 //---------------------------------------------------------------- Classes amies
 

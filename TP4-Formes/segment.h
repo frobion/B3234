@@ -32,14 +32,15 @@ public:
     virtual bool Hit(Point p);
     virtual string GetInformation();
 
-    static bool IsConstructionPossible(const Point &extremity1, const Point &extremity2, string &errorMessage);
+    static Segment* GetSegment(const string &name, const Point &extremity1,
+                               const Point &extremity2, string &errorMessage);
 
 //------------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
   Segment(const Segment &Segment);
 
-  Segment(const string &name,const Point &extremity1, const Point &extremity2);
+  Segment(); // Constructeur par défaut déclaré mais non défini.
 
   virtual ~Segment();
 
@@ -50,6 +51,10 @@ protected:
 
 private:
 //------------------------------------------------------------- Methodes privées
+
+// Constructeur
+
+  Segment(const string &name,const Point &extremity1, const Point &extremity2);
 
 protected:
 //----------------------------------------------------------- Attributs protégés

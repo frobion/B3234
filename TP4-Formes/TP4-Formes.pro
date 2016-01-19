@@ -18,8 +18,7 @@ SOURCES += main.cpp\
     rectangle.cpp \
     commandlineinterface.cpp \
     point.cpp \
-    intersection.cpp \
-    test.cpp
+    intersection.cpp
 
 HEADERS += draw.h \
     form.h \
@@ -30,5 +29,4 @@ HEADERS += draw.h \
     commandlineinterface.h \
     point.h \
     intersection.h \
-    test.h \
     config.h

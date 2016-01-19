@@ -66,6 +66,10 @@ Union::Union(const string &name, Form ** formList, int formNumber) : Form(name),
 
 Union::~Union()
 {
+    for (int i = 0; i < formListLength; i++)
+    {
+        delete formList[i];
+    }
     delete [] formList;
 }
 

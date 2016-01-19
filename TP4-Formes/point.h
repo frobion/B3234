@@ -32,9 +32,13 @@ public:
     int GetX() const ;
     int GetY() const ;
     void Move(int dx, int dy);
+    void Reset();
     bool IsDifferent(const Point & p) const;
 
 //------------------------------------------------------- Surcharge d'opérateurs
+
+    Point& operator= (const Point &p);
+    Point& operator+= (const Point &p);
 
 //-------------------------------------------------- Constructeurs - destructeur
   Point(const Point &Point);

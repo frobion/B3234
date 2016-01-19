@@ -32,14 +32,15 @@ public:
     virtual bool Hit(Point p);
     virtual string GetInformation();
 
-    static bool IsConstructionPossible(const Point &topLeft, const Point &bottomRight, string &errorMessage);
+    static Rectangle* GetRectangle(const string &name, const Point &topLeft,
+                                   const Point &bottomRight, string &errorMessage);
 
 //------------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
   Rectangle(const Rectangle &Rectangle);
 
-  Rectangle(const string &name, const Point &topLeft, const Point &bottomRight);
+  Rectangle(); // Constructeur par defaut declare mais non defini
 
   virtual ~Rectangle();
 
@@ -50,6 +51,9 @@ protected:
 
 private:
 //------------------------------------------------------------- Methodes privées
+
+//------------------------------------------------------------------Constructeur
+  Rectangle(const string &name, const Point &topLeft, const Point &bottomRight);
 
 protected:
 //----------------------------------------------------------- Attributs protégés

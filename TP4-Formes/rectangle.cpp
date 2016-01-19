@@ -31,25 +31,33 @@ bool Rectangle::Hit(Point p)
 
 string Rectangle::GetInformation()
 {
-    return ("R " + name + " " + to_string(topLeft.GetX() + offset.GetX()) + " " + to_string(topLeft.GetY() + offset.GetY()) +
-            " " + to_string(bottomRight.GetX() + offset.GetX()) + " " + to_string(bottomRight.GetY() + offset.GetY()));
+//    topLeft.Move(offset);
+//    bottomRight.Move(offset);
+    topLeft += offset;
+    bottomRight += offset;
+    offset.Reset();
+
+    return ("R " + name + " " + to_string(topLeft.GetX()) + " " + to_string(topLeft.GetY()) +
+            " " + to_string(bottomRight.GetX()) + " " + to_string(bottomRight.GetY()));
 }
 
-bool Rectangle::IsConstructionPossible(const Point &topLeft, const Point &bottomRight, string &errorMessage)
+Rectangle* Rectangle::GetRectangle(const string &name, const Point &topLeft,
+                                   const Point &bottomRight, string &errorMessage)
 {
     if (topLeft.GetX() <= bottomRight.GetX() || topLeft.GetY() <= bottomRight.GetY())
     {
         errorMessage = "Mauvais cadran";
-        return false;
+        return nullptr;
     }
-    return true;
+    return new Rectangle(name, topLeft, bottomRight);
 }
 
 //------------------------------------------------------- Surcharge d'operateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
 
-Rectangle::Rectangle(const string &name,const Point &topLeft, const Point &bottomRight ): Form(name), topLeft(topLeft), bottomRight(bottomRight)
+Rectangle::Rectangle(const string &name,const Point &topLeft, const Point &bottomRight ) :
+    Form(name), topLeft(topLeft), bottomRight(bottomRight)
 {
 
 }

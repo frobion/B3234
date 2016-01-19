@@ -40,12 +40,32 @@ void Point::Move(int dx, int dy)
     y += dy;
 }
 
+void Point::Reset()
+{
+    x = 0;
+    y = 0;
+}
+
 bool Point::IsDifferent(const Point &p) const
 {
-    return (p.GetX() != x || p.GetY() != y);
+    return (p.x != x || p.y != y);
 }
 
 //------------------------------------------------------- Surcharge d'operateurs
+
+Point& Point::operator = (const Point &p)
+{
+    x = p.x;
+    y = p.y;
+    return *this;
+}
+
+Point& Point::operator += (const Point &p)
+{
+    x += p.x;
+    y += p.y;
+    return *this;
+}
 
 //-------------------------------------------------- Constructeurs - destructeur
 
@@ -57,8 +77,8 @@ Point::Point(int x, int y): x(x), y(y)
 
 Point::Point(const Point &point)
 {
-    this->x = point.GetX();
-    this->y = point.GetY();
+    this->x = point.x;
+    this->y = point.y;
 }
 
 Point::~Point()

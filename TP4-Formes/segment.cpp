@@ -50,25 +50,31 @@ bool Segment::Hit(Point p)
 
 string Segment::GetInformation()
 {
-    return ("S " + name + " " + to_string(extremity1.GetX() + offset.GetX()) + " " + to_string(extremity1.GetY() + offset.GetY()) + " "
-            + to_string(extremity2.GetX() + offset.GetX()) + " " + to_string(extremity2.GetY() + offset.GetY()));
+    extremity1 += offset;
+    extremity2 += offset;
+    offset.Reset();
+
+    return ("S " + name + " " + to_string(extremity1.GetX()) + " " + to_string(extremity1.GetY()) + " "
+            + to_string(extremity2.GetX()) + " " + to_string(extremity2.GetY()));
 }
 
-bool Segment::IsConstructionPossible(const Point &extremity1, const Point &extremity2, string &errorMessage)
+Segment* Segment::GetSegment(const string &name, const Point &extremity1,
+                                         const Point &extremity2, string &errorMessage)
 {
     if(!extremity1.IsDifferent(extremity2))
     {
-        errorMessage = "Point du segment identique";
-        return false;
+        errorMessage = "Points identiques";
+        return nullptr;
     }
-    return true;
+    return new Segment(name, extremity1, extremity2);
 }
 
 //------------------------------------------------------- Surcharge d'operateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
 
-Segment::Segment(const string &name,const Point &extremity1, const Point &extremity2):Form(name), extremity1(extremity1), extremity2(extremity2)
+Segment::Segment(const string &name,const Point &extremity1, const Point &extremity2) :
+    Form(name), extremity1(extremity1), extremity2(extremity2)
 {
 
 }

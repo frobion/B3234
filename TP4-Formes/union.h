@@ -43,6 +43,8 @@ public:
 
   Union(const string &name, Form** formList, int formNumber);
 
+  Union(); // Constructeur  par defaut declare mais non defini
+
   virtual ~Union();
 
 //------------------------------------------------------------------------ PRIVE
