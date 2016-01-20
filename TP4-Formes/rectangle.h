@@ -31,7 +31,7 @@ public:
 //----------------------------------------------------------- Méthodes publiques
     virtual bool Hit(Point p);
     virtual string GetInformation();
-    virtual Rectangle* Clone();
+    virtual Rectangle* Clone() const;
 
     static Rectangle* GetRectangle(const string &name, const Point &topLeft,
                                    const Point &bottomRight, string &errorMessage);

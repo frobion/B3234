@@ -33,7 +33,7 @@ public:
     virtual bool Hit(Point p) = 0;
     void Move(int dX, int dY);
     virtual string GetInformation() = 0;
-    virtual Form* Clone() = 0;
+    virtual Form* Clone() const = 0;
 
 //------------------------------------------------------- Surcharge d'opérateurs
 

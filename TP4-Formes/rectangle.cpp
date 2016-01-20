@@ -42,7 +42,7 @@ string Rectangle::GetInformation()
             " " + to_string(bottomRight.GetX()) + " " + to_string(bottomRight.GetY()));
 }
 
-Rectangle* Rectangle::Clone()
+Rectangle* Rectangle::Clone() const
 {
     return new Rectangle("_" + name, topLeft, bottomRight);
 }

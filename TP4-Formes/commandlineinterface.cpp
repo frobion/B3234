@@ -19,8 +19,7 @@ using namespace std;
 #include "segment.h"
 #include "rectangle.h"
 #include "convexpolygone.h"
-#include "union.h"
-#include "intersection.h"
+#include "ensemble.h"
 
 
 //------------------------------------------------------------------- Constantes
@@ -72,10 +71,10 @@ int CommandLineInterface::waitForCommand()
 //        {
 //            move();
 //        }
-//        else if( nextAction == "LIST" )
-//        {
-//            listForm();
-//        }
+        else if( nextAction == "LIST" )
+        {
+            listForm();
+        }
 //        else if( nextAction == "UNDO" )
 //        {
 //            undo();
@@ -224,4 +223,9 @@ void CommandLineInterface::createConvexPolygone()
         constructionPossible = draw.AddForm(name, cP, errorMessage);
     }
     responseToUser(constructionPossible, errorMessage);
+}
+
+void CommandLineInterface::listForm()
+{
+    draw.Enumerate(cout);
 }

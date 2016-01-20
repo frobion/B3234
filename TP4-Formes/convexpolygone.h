@@ -34,7 +34,7 @@ public:
 //----------------------------------------------------------- Méthodes publiques
     virtual bool Hit(Point p);
     virtual string GetInformation();
-    virtual ConvexPolygone* Clone();
+    virtual ConvexPolygone* Clone() const;
 
     static ConvexPolygone* GetConvexPolygone(const string &name, const vector<Point> &pointList,
                                              string &errorMessage);

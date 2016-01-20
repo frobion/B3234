@@ -31,7 +31,7 @@ public:
 //----------------------------------------------------------- Méthodes publiques
     virtual bool Hit(Point p);
     virtual string GetInformation();
-    virtual Segment* Clone();
+    virtual Segment* Clone() const;
 
     static Segment* GetSegment(const string &name, const Point &extremity1,
                                const Point &extremity2, string &errorMessage);

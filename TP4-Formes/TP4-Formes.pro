@@ -13,20 +13,18 @@ SOURCES += main.cpp\
     draw.cpp \
     form.cpp \
     convexpolygone.cpp \
-    union.cpp \
     segment.cpp \
     rectangle.cpp \
     commandlineinterface.cpp \
     point.cpp \
-    intersection.cpp
+    ensemble.cpp
 
 HEADERS += draw.h \
     form.h \
     convexpolygone.h \
-    union.h \
     segment.h \
     rectangle.h \
     commandlineinterface.h \
     point.h \
-    intersection.h \
-    config.h
+    config.h \
+    ensemble.h

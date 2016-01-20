@@ -1,33 +1,32 @@
 /*******************************************************************************
- Union.h  -  description
+ Ensemble.h  -  description
  -------------------
  début                : 08/12
  copyright            : (C) 2015 par frobion
  ******************************************************************************/
 
-//------------------ Interface de la classe Union (fichier Union.h) ------
-#if !defined ( UNION_H )
-#define UNION_H
+//------------------ Interface de la classe Intersection (fichier Ensemble.h) ------
+#if !defined ( ENSEMBLE_H )
+#define ENSEMBLE_H
 
-//--------------------------------------------------------- Interfaces utilisées
+//--------------------------------------------------------- Interfaces utilisée
 using namespace std;
 
-#include <vector>
-
 #include "Form.h"
-#include "Point.h"
-#include "intersection.h"
 
 //------------------------------------------------------------------- Constantes
 
+
 //------------------------------------------------------------------------ Types
 
+enum Type {UNION, INTERSECTION};
+
 //------------------------------------------------------------------------------
-// Rôle de la classe Union
+// Rôle de la classe Ensemble
 //
 //------------------------------------------------------------------------------
 
-class Union : public Form
+class Ensemble : public Form
 {
 //----------------------------------------------------------------------- PUBLIC
 
@@ -35,19 +34,19 @@ public:
 //----------------------------------------------------------- Méthodes publiques
     virtual bool Hit(Point p);
     virtual string GetInformation();
-    virtual Union* Clone();
+    virtual Ensemble* Clone() const;
 
-    static Union* GetUnion(const string &name, Form** formList,
-                           int formNumber, string &errorMessage);
+    static Ensemble* GetEnsemble(const string &name, Form** formList,
+                                 int formNumber, Type type, string &errorMessage);
 
 //------------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
   // Constructeur par defaut et par copie declares mais non definis
-  Union(const Union &Union);
-  Union();
+  Ensemble(const Ensemble &Ensemble);
+  Ensemble();
 
-  virtual ~Union();
+  virtual ~Ensemble();
 
 //------------------------------------------------------------------------ PRIVE
 
@@ -58,15 +57,17 @@ private:
 //------------------------------------------------------------- Methodes privées
 
 //------------------------------------------------------------------Constructeur
-  Union(const string &name, Form** formList, int formNumber);
+  Ensemble(const string &name, Form** formList, const int &formNumber, const Type &type);
 
 protected:
 //----------------------------------------------------------- Attributs protégés
 
 private:
 //------------------------------------------------------------- Attributs privés
-  Form** formList;
+
   int formListLength;
+  Form** formList;
+  Type type;
 
 //---------------------------------------------------------------- Classes amies
 
@@ -76,6 +77,6 @@ private:
 
 };
 
-//----------------------------------------------- Types dépendants de <Union>
+//----------------------------------------------- Types dépendants de <Intersection>
 
-#endif // UNION_H
+#endif // ENSEMBLE_H

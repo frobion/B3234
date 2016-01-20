@@ -63,7 +63,7 @@ string Segment::GetInformation()
             + to_string(extremity2.GetX()) + " " + to_string(extremity2.GetY()));
 }
 
-Segment* Segment::Clone()
+Segment* Segment::Clone() const
 {
     return new Segment("_" + name, extremity1, extremity2);
 }

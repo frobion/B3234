@@ -64,9 +64,9 @@ string ConvexPolygone::GetInformation()
     return rtn;
 }
 
-ConvexPolygone* ConvexPolygone::Clone()
+ConvexPolygone* ConvexPolygone::Clone() const
 {
-    return new ConvexPolygone("-" + name, pointList);
+    return new ConvexPolygone("_" + name, pointList);
 }
 
 ConvexPolygone* ConvexPolygone::GetConvexPolygone(const string &name, const vector<Point> &pointList, string &errorMessage)
