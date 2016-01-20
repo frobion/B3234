@@ -59,18 +59,18 @@ int CommandLineInterface::waitForCommand()
 //        {
 //            createIntersection();
 //        }
-//        else if( nextAction == "HIT" )
-//        {
-//            hit();
-//        }
-//        else if( nextAction == "DELETE" )
-//        {
-//            deleteForm();
-//        }
-//        else if( nextAction == "MOVE" )
-//        {
-//            move();
-//        }
+        else if( nextAction == "HIT" )
+        {
+            hit();
+        }
+        else if( nextAction == "DELETE" )
+        {
+            deleteForm();
+        }
+        else if( nextAction == "MOVE" )
+        {
+            move();
+        }
         else if( nextAction == "LIST" )
         {
             listForm();
@@ -91,10 +91,10 @@ int CommandLineInterface::waitForCommand()
 //        {
 //            save();
 //        }
-//        else if( nextAction == "CLEAR" )
-//        {
-//            clear();
-//        }
+        else if( nextAction == "CLEAR" )
+        {
+            clear();
+        }
         else if( nextAction == "EXIT" )
         {
             return 0;
@@ -108,6 +108,16 @@ int CommandLineInterface::waitForCommand()
 //------------------------------------------------------- Surcharge d'operateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
+
+CommandLineInterface::CommandLineInterface()
+{
+
+}
+
+CommandLineInterface::~CommandLineInterface()
+{
+
+}
 
 //------------------------------------------------------------------------ PRIVE
 
@@ -173,35 +183,6 @@ void CommandLineInterface::createRectangle()
 
 void CommandLineInterface::createConvexPolygone()
 {
-
-//    string read;
-//    string name;
-//    int buffer=0;
-//    int read2;
-//    unsigned int counter=0;
-//    vector<Point> parametersArray;
-
-//    do{
-//        getline(cin, read, ' ');
-//        counter++;
-//        if(counter==1)
-//        {
-//            name = read;
-//        }
-//        else if(counter!=1 && (counter&1) == true) // Compteur impair
-//        {
-//            read2 = stoi(read);
-//            parametersArray.push_back(Point(buffer, read2));
-//        }
-//        buffer = read2;
-
-//    }while(read != "\n");
-
-//    if(!counter&1)  // Si on a un nombre total pair de parametres
-//    {
-//       responseToUser(false, "Le nombre de paramètres est incorrect");
-//    }
-
     string name;
     int x;
     int y;
@@ -229,3 +210,50 @@ void CommandLineInterface::listForm()
 {
     draw.Enumerate(cout);
 }
+
+void CommandLineInterface::hit()
+{
+    string name;
+    string errorMessage = "";
+    int x;
+    int y;
+
+    cin >> name >> x >> y;
+
+    string response = (draw.Hit(name, x, y, errorMessage)) ? "YES" : "NO";
+    cout << response << endl;
+}
+
+void CommandLineInterface::clear()
+{
+    draw.Clear();
+    responseToUser(true);
+}
+
+void CommandLineInterface::move()
+{
+    string name;
+    string errorMessage = "";
+    int dX;
+    int dY;
+
+    cin >> name >> dX >> dY;
+
+    responseToUser(draw.Move(name, dX, dY, errorMessage), errorMessage);
+}
+
+void CommandLineInterface::deleteForm()
+{
+
+}
+
+
+
+
+
+
+
+
+
+
+

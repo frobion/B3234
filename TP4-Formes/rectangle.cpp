@@ -10,6 +10,8 @@
 //-------------------------------------------------------------- Include système
 using namespace std;
 
+#include <iostream>
+
 //------------------------------------------------------------ Include personnel
 #include "Rectangle.h"
 
@@ -32,8 +34,6 @@ bool Rectangle::Hit(Point p)
 
 string Rectangle::GetInformation()
 {
-//    topLeft.Move(offset);
-//    bottomRight.Move(offset);
     topLeft += offset;
     bottomRight += offset;
     offset.Reset();
@@ -50,7 +50,9 @@ Rectangle* Rectangle::Clone() const
 Rectangle* Rectangle::GetRectangle(const string &name, const Point &topLeft,
                                    const Point &bottomRight, string &errorMessage)
 {
-    if (topLeft.GetX() <= bottomRight.GetX() || topLeft.GetY() <= bottomRight.GetY())
+
+    cout << topLeft.GetX() << " " << topLeft.GetY() << " " << bottomRight.GetX() << " " << bottomRight.GetY() << endl;
+    if (topLeft.GetX() >= bottomRight.GetX() || topLeft.GetY() <= bottomRight.GetY())
     {
         errorMessage = "Mauvais cadran";
         return nullptr;

@@ -26,7 +26,7 @@ using namespace std;
 
 bool Draw::AddForm(const string &name, Form* form, string &errorMessage)
 {
-    if(formMap.find(name) != formMap.end())
+    if(formMap.find(name) == formMap.end())
     {
         formMap[name] = form;
         return true;

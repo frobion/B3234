@@ -37,6 +37,7 @@ int waitForCommand();
 //------------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
+  // Constructeur de copie declare mais non defini
   CommandLineInterface(const CommandLineInterface &CommandLineInterface);
 
   CommandLineInterface();
