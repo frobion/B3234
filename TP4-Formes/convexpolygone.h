@@ -34,6 +34,7 @@ public:
 //----------------------------------------------------------- Méthodes publiques
     virtual bool Hit(Point p);
     virtual string GetInformation();
+    virtual ConvexPolygone* Clone();
 
     static ConvexPolygone* GetConvexPolygone(const string &name, const vector<Point> &pointList,
                                              string &errorMessage);
@@ -41,9 +42,9 @@ public:
 //------------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
+  // Constructeur par defaut et par copie declares mais non definis
   ConvexPolygone(const ConvexPolygone &ConvexPolygone);
-
-  ConvexPolygone(); // Constructeur par defaut declare mais non defini
+  ConvexPolygone();
 
   virtual ~ConvexPolygone();
 

@@ -34,18 +34,20 @@ bool ConvexPolygone::Hit(Point p)
 // segment le point A, et le deuxieme point du segment le point B
 // dans le calcul sin(AB, AC)
 {
+    p -= offset;
+
     double currentSinusABAC = getSinusABAC(pointList[pointList.size() - 1], pointList[0], p);
     bool isSinusABACPositif = currentSinusABAC > 0;
 
     for (uint i = 0; i < pointList.size() - 1; i++)
     {
         currentSinusABAC = getSinusABAC(pointList[i], pointList[i + 1], p);
-        if((currentSinusABAC > 0 && !isSinusABACPositif) || (currentSinusABAC < 0 && isSinusABACPositif))
+        if((currentSinusABAC > 0 && !isSinusABACPositif) || (currentSinusABAC < 0 && isSinusABACPositif) || currentSinusABAC == 0)
         {
             return false;
         }
     }
-    return false;
+    return true;
 }
 
 string ConvexPolygone::GetInformation()
@@ -60,6 +62,11 @@ string ConvexPolygone::GetInformation()
     offset.Reset();
 
     return rtn;
+}
+
+ConvexPolygone* ConvexPolygone::Clone()
+{
+    return new ConvexPolygone("-" + name, pointList);
 }
 
 ConvexPolygone* ConvexPolygone::GetConvexPolygone(const string &name, const vector<Point> &pointList, string &errorMessage)
@@ -107,14 +114,6 @@ ConvexPolygone* ConvexPolygone::GetConvexPolygone(const string &name, const vect
 
 //-------------------------------------------------- Constructeurs - destructeur
 
-ConvexPolygone::ConvexPolygone(const string &name, const vector<Point> &pointList) : Form(name)
-{
-    for (uint i = 0; i < pointList.size(); i++)
-    {
-        this->pointList[i] = pointList[i];
-    }
-}
-
 ConvexPolygone::~ConvexPolygone()
 {
 
@@ -147,6 +146,14 @@ double ConvexPolygone::getSinusABAC(const Point &a, const Point &b, const Point 
     return partieImaginaire / (sqrt(partieReel * partieReel + partieImaginaire * partieImaginaire));
 }
 
+//------------------------------------------------------------------Constructeur
+ConvexPolygone::ConvexPolygone(const string &name, const vector<Point> &pointList) : Form(name)
+{
+    for (uint i = 0; i < pointList.size(); i++)
+    {
+        this->pointList[i] = pointList[i];
+    }
+}
 
 
 

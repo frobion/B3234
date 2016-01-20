@@ -26,7 +26,8 @@ using namespace std;
 
 bool Rectangle::Hit(Point p)
 {
-    return (p.GetX()>= topLeft.GetX() && p.GetY() <= topLeft.GetY() && p.GetX() <= bottomRight.GetX() && p.GetY() >= bottomRight.GetY());
+    p -= offset;
+    return (p.GetX()> topLeft.GetX() && p.GetY() < topLeft.GetY() && p.GetX() < bottomRight.GetX() && p.GetY() > bottomRight.GetY());
 }
 
 string Rectangle::GetInformation()
@@ -39,6 +40,11 @@ string Rectangle::GetInformation()
 
     return ("R " + name + " " + to_string(topLeft.GetX()) + " " + to_string(topLeft.GetY()) +
             " " + to_string(bottomRight.GetX()) + " " + to_string(bottomRight.GetY()));
+}
+
+Rectangle* Rectangle::Clone()
+{
+    return new Rectangle("_" + name, topLeft, bottomRight);
 }
 
 Rectangle* Rectangle::GetRectangle(const string &name, const Point &topLeft,
@@ -56,12 +62,6 @@ Rectangle* Rectangle::GetRectangle(const string &name, const Point &topLeft,
 
 //-------------------------------------------------- Constructeurs - destructeur
 
-Rectangle::Rectangle(const string &name,const Point &topLeft, const Point &bottomRight ) :
-    Form(name), topLeft(topLeft), bottomRight(bottomRight)
-{
-
-}
-
 Rectangle::~Rectangle()
 {
 
@@ -72,3 +72,10 @@ Rectangle::~Rectangle()
 //----------------------------------------------------------- Methodes protegees
 
 //------------------------------------------------------------- Methodes privees
+
+//------------------------------------------------------------------Constructeur
+Rectangle::Rectangle(const string &name,const Point &topLeft, const Point &bottomRight ) :
+    Form(name), topLeft(topLeft), bottomRight(bottomRight)
+{
+
+}

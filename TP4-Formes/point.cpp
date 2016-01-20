@@ -67,6 +67,12 @@ Point& Point::operator += (const Point &p)
     return *this;
 }
 
+Point& Point::operator -= (const Point &p)
+{
+    x -= p.x;
+    y -= p.y;
+}
+
 //-------------------------------------------------- Constructeurs - destructeur
 
 

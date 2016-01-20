@@ -27,7 +27,7 @@ using namespace std;
 
 bool Union::Hit(Point p)
 {
-    p.Move(-offset.GetX(), -offset.GetY());
+    p -= offset;
 
     for (int i = 0; i < formListLength; i++)
     {
@@ -49,20 +49,24 @@ string Union::GetInformation()
     return rtn;
 }
 
+Union* Union::Clone()
+{
+    return new Union("_" + name, formList, formListLength);
+}
+
+Union* Union::GetUnion(const string &name, Form **formList, int formNumber, string &errorMessage)
+{
+    if (formNumber == 0)
+    {
+        errorMessage = "Pas de forme a unir";
+        return nullptr;
+    }
+    return new Union(name, formList, formNumber);
+}
+
 //------------------------------------------------------- Surcharge d'operateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
-
-
-Union::Union(const string &name, Form ** formList, int formNumber) : Form(name), formListLength(formNumber)
-{
-    this->formList = new Form* [formListLength];
-    for (int i = 0; i < formListLength; i++)
-    {
-        this->formList[i] = formList[i];
-    }
-}
-
 
 Union::~Union()
 {
@@ -78,3 +82,13 @@ Union::~Union()
 //----------------------------------------------------------- Methodes protegees
 
 //------------------------------------------------------------- Methodes privees
+
+//------------------------------------------------------------------Constructeur
+Union::Union(const string &name, Form ** formList, int formNumber) : Form(name), formListLength(formNumber)
+{
+    this->formList = new Form* [formListLength];
+    for (int i = 0; i < formListLength; i++)
+    {
+        this->formList[i] = formList[i]->Clone();
+    }
+}

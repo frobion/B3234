@@ -39,6 +39,7 @@ public:
 
     Point& operator= (const Point &p);
     Point& operator+= (const Point &p);
+    Point& operator-= (const Point &p);
 
 //-------------------------------------------------- Constructeurs - destructeur
   Point(const Point &Point);

@@ -31,6 +31,7 @@ public:
 //----------------------------------------------------------- Méthodes publiques
     virtual bool Hit(Point p);
     virtual string GetInformation();
+    virtual Rectangle* Clone();
 
     static Rectangle* GetRectangle(const string &name, const Point &topLeft,
                                    const Point &bottomRight, string &errorMessage);
@@ -38,9 +39,9 @@ public:
 //------------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
+  // Constructeur par defaut et par copie declares mais non definis
   Rectangle(const Rectangle &Rectangle);
-
-  Rectangle(); // Constructeur par defaut declare mais non defini
+  Rectangle();
 
   virtual ~Rectangle();
 

@@ -35,15 +35,17 @@ public:
 //----------------------------------------------------------- Méthodes publiques
     virtual bool Hit(Point p);
     virtual string GetInformation();
+    virtual Union* Clone();
+
+    static Union* GetUnion(const string &name, Form** formList,
+                           int formNumber, string &errorMessage);
 
 //------------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
+  // Constructeur par defaut et par copie declares mais non definis
   Union(const Union &Union);
-
-  Union(const string &name, Form** formList, int formNumber);
-
-  Union(); // Constructeur  par defaut declare mais non defini
+  Union();
 
   virtual ~Union();
 
@@ -54,6 +56,9 @@ protected:
 
 private:
 //------------------------------------------------------------- Methodes privées
+
+//------------------------------------------------------------------Constructeur
+  Union(const string &name, Form** formList, int formNumber);
 
 protected:
 //----------------------------------------------------------- Attributs protégés

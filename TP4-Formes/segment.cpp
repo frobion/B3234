@@ -25,27 +25,32 @@ using namespace std;
 //----------------------------------------------------------- Methodes publiques
 
 bool Segment::Hit(Point p)
+// Deux vecteur AB(a, b) et AC(c, d) sont colineaires ssi a*d - b*c == 0
+// Ici, A sera le premier point du segment, B le deuxième, et C le ponit p
 {
-    double gradient;
-    int extremity1X = extremity1.GetX();
-    int extremity1Y = extremity1.GetY();
-    int extremity2X = extremity2.GetX();
-    int extremity2Y = extremity2.GetY();
-    double dX;
-    double dY;
+    p -= offset;
 
-    if(extremity1X != extremity2X)
-    {
-       gradient = (extremity2Y - extremity1Y) / (extremity2X - extremity1X);
-       dX = p.GetX() - extremity1X;
-       dY = p.GetY() - extremity1Y;
+    int xAB = extremity2.GetX() - extremity1.GetX();
+    int yAB = extremity2.GetY() - extremity1.GetY();
+    int xAC = p.GetX() - extremity1.GetX();
+    int yAC = p.GetY() - extremity1.GetY();
 
-       return (dY == dX * gradient);
-    }
-    else  // Cas où le segment est vertical, et donc coefficient directeur infini
+    if (xAB * yAC - yAB * xAC != 0) // Point non alignes
     {
-        return (p.GetX() == extremity1X);
+        return false;
     }
+    if (extremity1.GetX() != extremity2.GetX())
+    {
+        if (p.GetX() >= max(extremity1.GetX(), extremity2.GetX()) || p.GetX() <= min(extremity1.GetX(), extremity2.GetX()))
+        {
+            return false;
+        }
+    }
+    else if(p.GetY() >= max(extremity1.GetY(), extremity2.GetY()) || p.GetY() <= min(extremity1.GetY(), extremity2.GetY()))
+    {
+        return false;
+    }
+    return true;
 }
 
 string Segment::GetInformation()
@@ -56,6 +61,11 @@ string Segment::GetInformation()
 
     return ("S " + name + " " + to_string(extremity1.GetX()) + " " + to_string(extremity1.GetY()) + " "
             + to_string(extremity2.GetX()) + " " + to_string(extremity2.GetY()));
+}
+
+Segment* Segment::Clone()
+{
+    return new Segment("_" + name, extremity1, extremity2);
 }
 
 Segment* Segment::GetSegment(const string &name, const Point &extremity1,
@@ -73,12 +83,6 @@ Segment* Segment::GetSegment(const string &name, const Point &extremity1,
 
 //-------------------------------------------------- Constructeurs - destructeur
 
-Segment::Segment(const string &name,const Point &extremity1, const Point &extremity2) :
-    Form(name), extremity1(extremity1), extremity2(extremity2)
-{
-
-}
-
 Segment::~Segment()
 {
 
@@ -89,3 +93,10 @@ Segment::~Segment()
 //----------------------------------------------------------- Methodes protegees
 
 //------------------------------------------------------------- Methodes privees
+
+//------------------------------------------------------------------Constructeur
+Segment::Segment(const string &name,const Point &extremity1, const Point &extremity2) :
+    Form(name), extremity1(extremity1), extremity2(extremity2)
+{
+
+}

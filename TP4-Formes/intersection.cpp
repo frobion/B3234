@@ -26,6 +26,7 @@ using namespace std;
 
 bool Intersection::Hit(Point p)
 {
+    p -= offset;
     return false;
 }
 
@@ -38,10 +39,13 @@ string Intersection::GetInformation()
 
 //-------------------------------------------------- Constructeurs - destructeur
 
-
 Intersection::~Intersection()
 {
-
+    for (int i = 0; i < formListLength; i++)
+    {
+        delete formList[i];
+    }
+    delete [] formList;
 }
 
 //------------------------------------------------------------------------ PRIVE
@@ -49,3 +53,15 @@ Intersection::~Intersection()
 //----------------------------------------------------------- Methodes protegees
 
 //------------------------------------------------------------- Methodes privees
+
+//------------------------------------------------------------------Constructeur
+
+Intersection::Intersection(const string &name, const Form **formList, int formNumber) :
+    Form(name), formListLength(formNumber)
+{
+    this->formList = new Form* [formListLength];
+    for (int i = 0; i < formListLength; i++)
+    {
+        this->formList[i] = formList[i]->Clone();
+    }
+}

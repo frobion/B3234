@@ -31,12 +31,16 @@ public:
 //----------------------------------------------------------- Méthodes publiques
     virtual bool Hit(Point p);
     virtual string GetInformation();
+    virtual Intersection* Clone();
+
+    static Intersection* GetIntersection(const string &name, const Form** formList,
+                                         int formNumber, string &errorMessage);
 
 //------------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
+  // Constructeur par defaut et par copie declares mais non definis
   Intersection(const Intersection &Intersection);
-
   Intersection();
 
   virtual ~Intersection();
@@ -49,11 +53,17 @@ protected:
 private:
 //------------------------------------------------------------- Methodes privées
 
+//------------------------------------------------------------------Constructeur
+  Intersection(const string &name, const Form** formList, int formNumber);
+
 protected:
 //----------------------------------------------------------- Attributs protégés
 
 private:
 //------------------------------------------------------------- Attributs privés
+
+  int formListLength;
+  Form** formList;
 
 //---------------------------------------------------------------- Classes amies
 
