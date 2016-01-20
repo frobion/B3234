@@ -244,10 +244,41 @@ void CommandLineInterface::move()
 
 void CommandLineInterface::deleteForm()
 {
+    vector<string> nameList;
+    string currentName;
+    string errorMessage = "";
 
+    while (cin.peek() != '\n')
+    {
+        cin >> currentName;
+        nameList.push_back(currentName);
+    }
+
+    responseToUser(draw.Delete(nameList, errorMessage), errorMessage);
 }
 
+void CommandLineInterface::createReunion()
+{
+    vector<Form*> formList;
+    string currentName;
+    Form* currentForm;
+    string reunionName;
+    string errorMessage = "";
 
+    cin >> reunionName;
+
+    while (cin.peek() != '\n')
+    {
+        cin >> currentName;
+        currentForm = draw.GetForm(currentName);
+        if (currentForm == nullptr)
+        {
+            responseToUser(false, "Nom inexistant");
+        }
+        formList.push_back(currentForm);
+    }
+//    responseToUser(Ensemble::GetEnsemble(reunionName, ));
+}
 
 
 

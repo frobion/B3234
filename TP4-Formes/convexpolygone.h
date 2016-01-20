@@ -53,8 +53,10 @@ public:
 protected:
 //----------------------------------------------------------- Methodes protégées
 
+
 private:
 //------------------------------------------------------------- Methodes privées
+  static void affichePoint(const vector<Point> &pointList);
 
   static double getSinusABAC(const Point &a, const Point &b, const Point &c);
 

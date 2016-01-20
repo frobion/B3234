@@ -49,8 +49,13 @@ bool Draw::Delete(const vector<string> &nameList, string &errorMessage)
     for (uint i = 0; i < nameList.size(); i++)
     {
         map<string, Form*>::iterator itFormMap = formMap.find(nameList[i]);
-        delete itFormMap->second;
-        formMap.erase(itFormMap);
+        if (itFormMap != formMap.end()) // Il est possible que le nom ne soit pas trouve si il
+                                        // apparaissait deux fois dans la liste de noms a supprimer
+        {
+            delete itFormMap->second;
+            formMap.erase(itFormMap);
+        }
+
     }
     return true;
 }
@@ -96,6 +101,16 @@ bool Draw::Move(const string &name, int dX, int dY, string &errorMessage)
     }
     errorMessage = "Nom inexistant";
     return false;
+}
+
+Form* Draw::GetForm(const string &name)
+{
+    map<string, Form*>::iterator itFormMap = formMap.find(name);
+    if (itFormMap != formMap.end())
+    {
+        return itFormMap->second;
+    }
+    return nullptr;
 }
 
 //------------------------------------------------------- Surcharge d'operateurs

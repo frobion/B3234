@@ -43,6 +43,7 @@ public:
     void Clear();
     bool Hit(const string &name, int x, int y, string &errorMessage);
     bool Move(const string &name, int dX, int dY, string &errorMessage);
+    Form* GetForm(const string &name);
 
 //------------------------------------------------------- Surcharge d'opérateurs
 

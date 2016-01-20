@@ -1,6 +1,9 @@
 #include <iostream>
+#include <vector>
 
 #include "CommandLineInterface.h"
+#include "convexpolygone.h"
+#include "point.h"
 
 using namespace std;
 
