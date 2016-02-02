@@ -12,6 +12,7 @@
 //--------------------------------------------------------- Interfaces utilisées
 
 #include "draw.h"
+#include "ensemble.h"
 #include <string>
 
 using namespace std;
@@ -51,13 +52,12 @@ protected:
 
 private:
 //------------------------------------------------------------- Methodes privées
-void createSegment();
-void createRectangle();
-void createConvexPolygone();
-void createReunion();
-void createIntersection();
+void createSegment(bool display, istream &in);
+void createRectangle(bool display, istream &in);
+void createConvexPolygone(bool display, istream &in);
+void createEnsemble(Ensemble::Type type, bool display, istream &in);
 void hit();
-void deleteForm();
+void deleteForm(bool display, istream &in);
 void move();
 void listForm();
 void undo();

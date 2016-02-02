@@ -12,14 +12,15 @@
 //--------------------------------------------------------- Interfaces utilisée
 using namespace std;
 
+#include <vector>
+
 #include "Form.h"
+
 
 //------------------------------------------------------------------- Constantes
 
 
 //------------------------------------------------------------------------ Types
-
-enum Type {UNION, INTERSECTION};
 
 //------------------------------------------------------------------------------
 // Rôle de la classe Ensemble
@@ -29,15 +30,16 @@ enum Type {UNION, INTERSECTION};
 class Ensemble : public Form
 {
 //----------------------------------------------------------------------- PUBLIC
-
 public:
+
+    enum Type {UNION, INTERSECTION};
 //----------------------------------------------------------- Méthodes publiques
     virtual bool Hit(Point p);
     virtual string GetInformation();
     virtual Ensemble* Clone() const;
 
-    static Ensemble* GetEnsemble(const string &name, Form** formList,
-                                 int formNumber, Type type, string &errorMessage);
+    static Ensemble* GetEnsemble(const string &name, vector<Form*> formList,
+                                 Type type, string &errorMessage);
 
 //------------------------------------------------------- Surcharge d'opérateurs
 
@@ -58,7 +60,7 @@ private:
 //------------------------------------------------------------- Methodes privées
 
 //------------------------------------------------------------------Constructeur
-  Ensemble(const string &name, Form** formList, const int &formNumber, const Type &type);
+  Ensemble(const string &name, vector<Form*> formList, Type type);
 
 protected:
 //----------------------------------------------------------- Attributs protégés
@@ -66,8 +68,7 @@ protected:
 private:
 //------------------------------------------------------------- Attributs privés
 
-  int formListLength;
-  Form** formList;
+  vector<Form*> formList;
   Type type;
 
 //---------------------------------------------------------------- Classes amies

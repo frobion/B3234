@@ -32,8 +32,10 @@ public:
 //----------------------------------------------------------- Méthodes publiques
     virtual bool Hit(Point p) = 0;
     void Move(int dX, int dY);
+    void Move(const Point &p);
     virtual string GetInformation() = 0;
     virtual Form* Clone() const = 0;
+    string GetName();
 
 //------------------------------------------------------- Surcharge d'opérateurs
 
@@ -48,7 +50,6 @@ public:
 
 protected:
 //----------------------------------------------------------- Methodes protégées
-
 
 private:
 //------------------------------------------------------------- Methodes privées

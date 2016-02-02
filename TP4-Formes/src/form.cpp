@@ -29,6 +29,16 @@ void Form::Move(int dX, int dY)
     offset.Move(dX, dY);
 }
 
+void Form::Move(const Point &p)
+{
+    offset += p;
+}
+
+string Form::GetName()
+{
+    return name;
+}
+
 //------------------------------------------------------- Surcharge d'operateurs
 
 //-------------------------------------------------- Constructeurs - destructeur
