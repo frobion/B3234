@@ -11,6 +11,7 @@
 using namespace std;
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 
 //------------------------------------------------------------ Include personnel
@@ -19,7 +20,6 @@ using namespace std;
 #include "segment.h"
 #include "rectangle.h"
 #include "convexpolygone.h"
-#include "ensemble.h"
 
 
 //------------------------------------------------------------------- Constantes
@@ -38,34 +38,33 @@ int CommandLineInterface::waitForCommand()
     string nextAction;
     while (cin >> nextAction)
     {
-
         if(nextAction == "S" )
         {
-            createSegment();
+            createSegment(true, cin);
         }
         else if( nextAction == "R" )
         {
-            createRectangle();
+            createRectangle(true, cin);
         }
         else if( nextAction == "PC" )
         {
-            createConvexPolygone();
+            createConvexPolygone(true, cin);
         }
-//        else if( nextAction == "OR" )
-//        {
-//            createReunion();
-//        }
-//        else if( nextAction == "OI" )
-//        {
-//            createIntersection();
-//        }
+        else if( nextAction == "OR" )
+        {
+            createEnsemble(Ensemble::UNION, true, cin);
+        }
+        else if( nextAction == "OI" )
+        {
+            createEnsemble(Ensemble::INTERSECTION, true, cin);
+        }
         else if( nextAction == "HIT" )
         {
             hit();
         }
         else if( nextAction == "DELETE" )
         {
-            deleteForm();
+            deleteForm(true, cin);
         }
         else if( nextAction == "MOVE" )
         {
@@ -83,23 +82,23 @@ int CommandLineInterface::waitForCommand()
 //        {
 //            redo();
 //        }
-//        else if( nextAction == "LOAD" )
-//        {
-//            load();
-//        }
-//        else if( nextAction == "SAVE" )
-//        {
-//            save();
-//        }
+        else if( nextAction == "LOAD" )
+        {
+            load();
+        }
+        else if( nextAction == "SAVE" )
+        {
+            save();
+        }
         else if( nextAction == "CLEAR" )
         {
             clear();
         }
         else if( nextAction == "EXIT" )
         {
+            clear();
             return 0;
         }
-
     }
     return 1;  // Si on sort pas normalement, erreur.
 }
@@ -135,7 +134,7 @@ void CommandLineInterface::responseToUser(bool response, string message)
     }
 }
 
-void CommandLineInterface::createSegment()
+void CommandLineInterface::createSegment(bool display, istream &in)
 {
     string name;
     int x1;
@@ -143,7 +142,7 @@ void CommandLineInterface::createSegment()
     int x2;
     int y2;
 
-    cin >> name >> x1 >> y1 >> x2 >> y2;
+    in >> name >> x1 >> y1 >> x2 >> y2;
 
     Point p1(x1,y1);
     Point p2(x2,y2);
@@ -155,10 +154,14 @@ void CommandLineInterface::createSegment()
     {
         isConstructionPossible = draw.AddForm(name, s, errorMessage);
     }
-    responseToUser(isConstructionPossible, errorMessage);
+
+    if (display)
+    {
+        responseToUser(isConstructionPossible, errorMessage);
+    }
 }
 
-void CommandLineInterface::createRectangle()
+void CommandLineInterface::createRectangle(bool display, istream &in)
 {
     string name;
     int x1;
@@ -166,7 +169,7 @@ void CommandLineInterface::createRectangle()
     int x2;
     int y2;
 
-    cin >> name >> x1 >> y1 >> x2 >> y2;
+    in >> name >> x1 >> y1 >> x2 >> y2;
 
     Point p1(x1,y1);
     Point p2(x2,y2);
@@ -178,37 +181,74 @@ void CommandLineInterface::createRectangle()
     {
         isConstructionPossible = draw.AddForm(name, r, errorMessage);
     }
-    responseToUser(isConstructionPossible, errorMessage);
+
+    if (display)
+    {
+        responseToUser(isConstructionPossible, errorMessage);
+    }
 }
 
-void CommandLineInterface::createConvexPolygone()
+void CommandLineInterface::createConvexPolygone(bool display, istream &in)
 {
     string name;
     int x;
     int y;
     vector<Point> parametersArray;
 
-    cin >> name;
+    in >> name;
     while(cin.peek() != '\n')
     {
-        cin >> x >> y;
+        in >> x >> y;
         parametersArray.push_back(Point(x, y));
     }
 
     string errorMessage = "";
-    bool constructionPossible = false;
+    bool isConstructionPossible = false;
     ConvexPolygone* cP = ConvexPolygone::GetConvexPolygone(name, parametersArray, errorMessage);
 
     if(cP != nullptr)
     {
-        constructionPossible = draw.AddForm(name, cP, errorMessage);
+        isConstructionPossible = draw.AddForm(name, cP, errorMessage);
     }
-    responseToUser(constructionPossible, errorMessage);
+
+    if (display)
+    {
+        responseToUser(isConstructionPossible, errorMessage);
+    }
 }
 
-void CommandLineInterface::listForm()
+void CommandLineInterface::createEnsemble(Ensemble::Type type, bool display, istream &in)
 {
-    draw.Enumerate(cout);
+    vector<Form*> formList;
+    string currentName;
+    Form* currentForm;
+
+    string ensembleName;
+    in >> ensembleName;
+
+    while (cin.peek() != '\n')
+    {
+        in >> currentName;
+        currentForm = draw.GetForm(currentName);
+        if (currentForm == nullptr)
+        {
+            responseToUser(false, currentName + " inexistant");
+        }
+        formList.push_back(currentForm);
+    }
+
+    string errorMessage = "";
+    bool isConstructionPossible = false;
+    Ensemble * e = Ensemble::GetEnsemble(ensembleName, formList, type, errorMessage);
+    if (e != nullptr)
+    {
+        isConstructionPossible = draw.AddForm(ensembleName, e, errorMessage);
+    }
+
+    if (display)
+    {
+        responseToUser(isConstructionPossible, errorMessage);
+    }
 }
 
 void CommandLineInterface::hit()
@@ -224,10 +264,23 @@ void CommandLineInterface::hit()
     cout << response << endl;
 }
 
-void CommandLineInterface::clear()
+void CommandLineInterface::deleteForm(bool display, istream &in)
 {
-    draw.Clear();
-    responseToUser(true);
+    vector<string> nameList;
+    string currentName;
+    string errorMessage = "";
+
+    while (cin.peek() != '\n')
+    {
+        in >> currentName;
+        nameList.push_back(currentName);
+    }
+
+    if (display)
+    {
+        bool success = draw.Delete(nameList, errorMessage);
+        responseToUser(success, errorMessage);
+    }
 }
 
 void CommandLineInterface::move()
@@ -239,45 +292,67 @@ void CommandLineInterface::move()
 
     cin >> name >> dX >> dY;
 
-    responseToUser(draw.Move(name, dX, dY, errorMessage), errorMessage);
+    bool success = draw.Move(name, dX, dY, errorMessage);
+    responseToUser(success, errorMessage);
 }
 
-void CommandLineInterface::deleteForm()
+void CommandLineInterface::listForm()
 {
-    vector<string> nameList;
-    string currentName;
-    string errorMessage = "";
-
-    while (cin.peek() != '\n')
-    {
-        cin >> currentName;
-        nameList.push_back(currentName);
-    }
-
-    responseToUser(draw.Delete(nameList, errorMessage), errorMessage);
+    draw.Enumerate(cout);
 }
 
-void CommandLineInterface::createReunion()
+void CommandLineInterface::load()
 {
-    vector<Form*> formList;
-    string currentName;
-    Form* currentForm;
-    string reunionName;
-    string errorMessage = "";
+    string filename;
+    cin >> filename;
 
-    cin >> reunionName;
+    ifstream in(filename);
 
-    while (cin.peek() != '\n')
+    string nextAction;
+    while (in >> nextAction && in.peek() != '\n')
     {
-        cin >> currentName;
-        currentForm = draw.GetForm(currentName);
-        if (currentForm == nullptr)
+        if(nextAction == "S" )
         {
-            responseToUser(false, "Nom inexistant");
+            createSegment(false, in);
         }
-        formList.push_back(currentForm);
+        else if( nextAction == "R" )
+        {
+            createRectangle(false, in);
+        }
+        else if( nextAction == "PC" )
+        {
+            createConvexPolygone(false, in);
+        }
+        else if( nextAction == "OR" )
+        {
+            createEnsemble(Ensemble::UNION, false, in);
+        }
+        else if( nextAction == "OI" )
+        {
+            createEnsemble(Ensemble::INTERSECTION, false, in);
+        }
+        else if(nextAction == "DELETE")
+        {
+            deleteForm(false, in);
+        }
     }
-//    responseToUser(Ensemble::GetEnsemble(reunionName, ));
+    responseToUser(true);
+}
+
+void CommandLineInterface::save()
+{
+    string filename;
+    cin >> filename;
+
+    ofstream out(filename);
+    draw.Enumerate(out);
+    responseToUser(true);
+}
+
+void CommandLineInterface::clear()
+{
+    draw.Clear();
+    responseToUser(true);
 }
 
 

@@ -12,6 +12,7 @@ using namespace std;
 
 //------------------------------------------------------------ Include personnel
 #include "Ensemble.h"
+#include "config.h"
 
 //------------------------------------------------------------------- Constantes
 
@@ -27,7 +28,7 @@ using namespace std;
 bool Ensemble::Hit(Point p)
 {
     p -= offset;
-    for (int i = 0; i < formListLength; i++)
+    for (uint i = 0; i < formList.size(); i++)
     {
         if ((type == Type::UNION && formList[i]->Hit(p)) || (type == Type::INTERSECTION && !formList[i]->Hit(p)))
         {
@@ -39,27 +40,36 @@ bool Ensemble::Hit(Point p)
 
 string Ensemble::GetInformation()
 {
-    string rtn = (type == Type::UNION) ? "U\r\n" : "I\r\n";
-    for (int i = 0; i < formListLength; i++)
+    string rtn = "";
+    string nameList = "";
+
+    for (uint i = 0; i < formList.size(); i++)
     {
-        rtn += "  " + formList[i]->GetInformation() + "\r\n";
+        formList[i]->Move(offset);
+        rtn += formList[i]->GetInformation() + "\r\n";
+        nameList += " " + formList[i]->GetName();
     }
+    offset.Reset();
+
+    rtn += ((type == Type::UNION) ? "OR " : "OI ") + name + nameList + "\r\n";
+    rtn += "DELETE" + nameList;
+
     return rtn;
 }
 
 Ensemble* Ensemble::Clone() const
 {
-    return new Ensemble(name, formList, formListLength, type);
+    return new Ensemble("_" + name, formList, type);
 }
 
-Ensemble* Ensemble::GetEnsemble(const string &name, Form **formList, int formNumber, Type type, string &errorMessage)
+Ensemble* Ensemble::GetEnsemble(const string &name, vector<Form*> formList, Type type, string &errorMessage)
 {
-    if (formNumber == 0)
+    if (formList.size() == 0)
     {
         errorMessage = "Pas de forme pour faire un ensemble";
         return nullptr;
     }
-    return new Ensemble(name, formList, formNumber, type);
+    return new Ensemble(name, formList, type);
 }
 
 //------------------------------------------------------- Surcharge d'operateurs
@@ -68,11 +78,10 @@ Ensemble* Ensemble::GetEnsemble(const string &name, Form **formList, int formNum
 
 Ensemble::~Ensemble()
 {
-    for (int i = 0; i < formListLength; i++)
+    for (uint i = 0; i < formList.size(); i++)
     {
         delete formList[i];
     }
-    delete [] formList;
 }
 
 //------------------------------------------------------------------------ PRIVE
@@ -83,12 +92,11 @@ Ensemble::~Ensemble()
 
 //------------------------------------------------------------------Constructeur
 
-Ensemble::Ensemble(const string &name, Form **formList, const int &formNumber, const Type &type) :
-    Form(name), formListLength(formNumber), type(type)
+Ensemble::Ensemble(const string &name, vector<Form*> formList, Type type) :
+    Form(name), type(type)
 {
-    this->formList = new Form* [formListLength];
-    for (int i = 0; i < formListLength; i++)
+    for (uint i = 0; i < formList.size(); i++)
     {
-        this->formList[i] = formList[i]->Clone();
+        this->formList.push_back(formList[i]->Clone());
     }
 }

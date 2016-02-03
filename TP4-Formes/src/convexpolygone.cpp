@@ -86,7 +86,6 @@ ConvexPolygone* ConvexPolygone::GetConvexPolygone(const string &name, const vect
 
     bool sinusThetaIsPositif;
     double currentSinusABAC= getSinusABAC(pointList[0], pointList[pointList.size() - 1], pointList[1]);
-    cout << " " << "0" << ", " << to_string(pointList.size() - 1) << ", " << "1" << ", " << currentSinusABAC << endl;
     if (currentSinusABAC == 0)
     {
         affichePoint(pointList);
@@ -99,7 +98,6 @@ ConvexPolygone* ConvexPolygone::GetConvexPolygone(const string &name, const vect
     for (uint i = 1; i < pointList.size(); i++)
     {
         currentSinusABAC = getSinusABAC(pointList[i], pointList[i - 1], pointList[(i + 1) % pointList.size()]);
-        cout << " " << to_string(i) << ", " << to_string(i - 1) << ", " << to_string(i + 1) << ", " << currentSinusABAC << endl;
         if (currentSinusABAC == 0)
         {
             affichePoint(pointList);
@@ -166,13 +164,6 @@ ConvexPolygone::ConvexPolygone(const string &name, const vector<Point> &pointLis
 {
     for (uint i = 0; i < pointList.size(); i++)
     {
-        cout << pointList[i].GetX() << " " << pointList[i].GetY() << endl;
         this->pointList.push_back(pointList[i]);
     }
 }
-
-
-
-
-
-
