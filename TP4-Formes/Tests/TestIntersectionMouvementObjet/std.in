@@ -1,6 +1,6 @@
 R Rectangle1 1 3 6 0
 R Rectangle2 1 3 8 -4
-OI Intersection1 Rectangle1 rectangle2
+OI Intersection1 Rectangle1 Rectangle2
 LIST
 MOVE Rectangle2 4 6
 LIST
