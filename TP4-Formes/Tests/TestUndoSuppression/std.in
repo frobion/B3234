@@ -4,8 +4,7 @@ DELETE Segment1
 UNDO
 LIST
 PC PolygonConvex1 1 1 3 -5 -2 -1
-CLEAN
+CLEAR
 UNDO
 LIST
 EXIT
-

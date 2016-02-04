@@ -11,7 +11,6 @@
 using namespace std;
 
 #include <cmath>
-#include <iostream>
 
 //------------------------------------------------------------ Include personnel
 #include "ConvexPolygone.h"
@@ -78,7 +77,6 @@ ConvexPolygone* ConvexPolygone::GetConvexPolygone(const string &name, const vect
 {
     if (pointList.size() < 3)
     {
-        affichePoint(pointList);
         errorMessage = "Nombre de points insuffisants";
         return nullptr;
     }
@@ -88,7 +86,6 @@ ConvexPolygone* ConvexPolygone::GetConvexPolygone(const string &name, const vect
     double currentSinusABAC= getSinusABAC(pointList[0], pointList[pointList.size() - 1], pointList[1]);
     if (currentSinusABAC == 0)
     {
-        affichePoint(pointList);
         errorMessage = "Points alignes";
         return nullptr;
     }
@@ -100,13 +97,11 @@ ConvexPolygone* ConvexPolygone::GetConvexPolygone(const string &name, const vect
         currentSinusABAC = getSinusABAC(pointList[i], pointList[i - 1], pointList[(i + 1) % pointList.size()]);
         if (currentSinusABAC == 0)
         {
-            affichePoint(pointList);
             errorMessage = "Points alignes";
             return nullptr;
         }
         else if ((currentSinusABAC < 0 && sinusThetaIsPositif) || (currentSinusABAC > 0 && !sinusThetaIsPositif))
         {
-            affichePoint(pointList);
             errorMessage = "Polygone non convexe";
             return nullptr;
         }
@@ -130,14 +125,6 @@ ConvexPolygone::~ConvexPolygone()
 //----------------------------------------------------------- Methodes protegees
 
 //------------------------------------------------------------- Methodes privees
-void ConvexPolygone::affichePoint(const vector<Point> &pointList)
-{
-    for (uint i = 0; i < pointList.size(); i++)
-    {
-        cout << "  " << pointList[i].GetX() << " " << pointList[i].GetY() << endl;
-    }
-}
-
 double ConvexPolygone::getSinusABAC(const Point &a, const Point &b, const Point &c)
 {
     if (!a.IsDifferent(b))

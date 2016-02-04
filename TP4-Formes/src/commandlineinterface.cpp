@@ -268,6 +268,7 @@ void CommandLineInterface::createEnsemble(Ensemble::Type type, bool display, ist
         if (currentForm == nullptr)
         {
             responseToUser(false, currentName + " inexistant");
+            return;
         }
         formList.push_back(currentForm);
     }
@@ -309,7 +310,14 @@ void CommandLineInterface::hit()
     cin >> name >> x >> y;
 
     string response = (draw.Hit(name, x, y, errorMessage)) ? "YES" : "NO";
-    cout << response << endl;
+    if (errorMessage != "")
+    {
+        responseToUser(false, errorMessage);
+    }
+    else
+    {
+        cout << response << endl;
+    }
 }
 
 void CommandLineInterface::deleteForm(bool display, istream &in, bool doReturnCommand)
