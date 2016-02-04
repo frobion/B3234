@@ -87,7 +87,7 @@ void redo();
 void load(bool display, istream &in);
 void load(istream &in, bool undo);
 void save();
-void clear(bool doReturnCommand);
+void clear(bool display, bool doReturnCommand);
 
 void responseToUser(bool response, string errorMessage = "");
 void addCommandInUndoList(CommandUndoRedo *command);

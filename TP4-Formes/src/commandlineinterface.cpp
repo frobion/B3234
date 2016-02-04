@@ -101,11 +101,11 @@ int CommandLineInterface::waitForCommand()
         else if( nextAction == "CLEAR" )
         {
             clearRedoList();
-            clear(true);
+            clear(true, true);
         }
         else if( nextAction == "EXIT" )
         {
-            clear(false);
+            clear(false, false);
             return 0;
         }
     }
@@ -493,7 +493,7 @@ void CommandLineInterface::load(istream &in, bool undo)
         }
         else if(nextAction == "CLEAR")
         {
-            clear(false);
+            clear(false, false);
         }
     }
 }
@@ -509,7 +509,7 @@ void CommandLineInterface::save()
     responseToUser(true);
 }
 
-void CommandLineInterface::clear(bool doReturnCommand)
+void CommandLineInterface::clear(bool display, bool doReturnCommand)
 {
     if(doReturnCommand)
     {
@@ -523,7 +523,11 @@ void CommandLineInterface::clear(bool doReturnCommand)
     }
 
     draw.Clear();
-    responseToUser(true);
+
+    if(display)
+    {
+        responseToUser(true);
+    }
 }
 
 void CommandLineInterface::responseToUser(bool response, string message)
