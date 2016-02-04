@@ -35,7 +35,8 @@ bool Draw::AddForm(const string &name, Form* form, string &errorMessage)
     return false;
 }
 
-bool Draw::Delete(const vector<string> &nameList, string &errorMessage)
+bool Draw::Delete(const vector<string> &nameList, string &errorMessage,
+                  string &deletedNameList, string &deletedFormInformation)
 {
     // Verification que tous les noms existent bien dans la map
     for (uint i = 0; i < nameList.size(); i++)
@@ -52,6 +53,8 @@ bool Draw::Delete(const vector<string> &nameList, string &errorMessage)
         if (itFormMap != formMap.end()) // Il est possible que le nom ne soit pas trouve si il
                                         // apparaissait deux fois dans la liste de noms a supprimer
         {
+            deletedNameList += " " + itFormMap->second->GetName();
+            deletedFormInformation += itFormMap->second->GetInformation() + "\r\n";
             delete itFormMap->second;
             formMap.erase(itFormMap);
         }

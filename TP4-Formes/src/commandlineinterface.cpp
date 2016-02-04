@@ -40,23 +40,28 @@ int CommandLineInterface::waitForCommand()
     {
         if(nextAction == "S" )
         {
-            createSegment(true, cin);
+            clearRedoList();
+            createSegment(true, cin, true);
         }
         else if( nextAction == "R" )
         {
-            createRectangle(true, cin);
+            clearRedoList();
+            createRectangle(true, cin, true);
         }
         else if( nextAction == "PC" )
         {
-            createConvexPolygone(true, cin);
+            clearRedoList();
+            createConvexPolygone(true, cin, true);
         }
         else if( nextAction == "OR" )
         {
-            createEnsemble(Ensemble::UNION, true, cin);
+            clearRedoList();
+            createEnsemble(Ensemble::UNION, true, cin, true);
         }
         else if( nextAction == "OI" )
         {
-            createEnsemble(Ensemble::INTERSECTION, true, cin);
+            clearRedoList();
+            createEnsemble(Ensemble::INTERSECTION, true, cin, true);
         }
         else if( nextAction == "HIT" )
         {
@@ -64,27 +69,30 @@ int CommandLineInterface::waitForCommand()
         }
         else if( nextAction == "DELETE" )
         {
-            deleteForm(true, cin);
+            clearRedoList();
+            deleteForm(true, cin, true);
         }
         else if( nextAction == "MOVE" )
         {
-            move();
+            clearRedoList();
+            move(true, cin, true);
         }
         else if( nextAction == "LIST" )
         {
             listForm();
         }
-//        else if( nextAction == "UNDO" )
-//        {
-//            undo();
-//        }
-//        else if( nextAction == "REDO" )
-//        {
-//            redo();
-//        }
+        else if( nextAction == "UNDO" )
+        {
+            undo();
+        }
+        else if( nextAction == "REDO" )
+        {
+            redo();
+        }
         else if( nextAction == "LOAD" )
         {
-            load();
+            clearRedoList();
+            load(true, cin);
         }
         else if( nextAction == "SAVE" )
         {
@@ -92,11 +100,12 @@ int CommandLineInterface::waitForCommand()
         }
         else if( nextAction == "CLEAR" )
         {
-            clear();
+            clearRedoList();
+            clear(true);
         }
         else if( nextAction == "EXIT" )
         {
-            clear();
+            clear(false);
             return 0;
         }
     }
@@ -115,7 +124,13 @@ CommandLineInterface::CommandLineInterface()
 
 CommandLineInterface::~CommandLineInterface()
 {
-
+    clearRedoList();
+    list<CommandUndoRedo*>::iterator itUndoList;
+    for (itUndoList = undoList.begin(); itUndoList != undoList.end(); itUndoList++)
+    {
+        delete *itUndoList;
+    }
+    undoList.clear();
 }
 
 //------------------------------------------------------------------------ PRIVE
@@ -124,18 +139,9 @@ CommandLineInterface::~CommandLineInterface()
 
 //------------------------------------------------------------- Methodes privees
 
-void CommandLineInterface::responseToUser(bool response, string message)
+void CommandLineInterface::createSegment(bool display, istream &in, bool doReturnCommand)
 {
-    cout << (response ? "OK" : "ERR") << endl;
 
-    if(message!="")
-    {
-        cout << "# " << message << endl;
-    }
-}
-
-void CommandLineInterface::createSegment(bool display, istream &in)
-{
     string name;
     int x1;
     int y1;
@@ -153,6 +159,14 @@ void CommandLineInterface::createSegment(bool display, istream &in)
     if(s != nullptr)
     {
         isConstructionPossible = draw.AddForm(name, s, errorMessage);
+        if (isConstructionPossible && doReturnCommand) // On ne cree la commande oppose que si la construction a bien eu lieu
+        {
+            stringstream* oppositeCommand = new stringstream("DELETE " + name + "\r\n");
+            stringstream* command = new stringstream();
+            *command << "S " << name << " " << x1 << " " << y1 << " " << x2 << " " << y2 << endl;
+            CommandUndoRedo* commandUndoRedo = new CommandUndoRedo{oppositeCommand, command};
+            addCommandInUndoList(commandUndoRedo);
+        }
     }
 
     if (display)
@@ -161,7 +175,7 @@ void CommandLineInterface::createSegment(bool display, istream &in)
     }
 }
 
-void CommandLineInterface::createRectangle(bool display, istream &in)
+void CommandLineInterface::createRectangle(bool display, istream &in, bool doReturnCommand)
 {
     string name;
     int x1;
@@ -180,6 +194,14 @@ void CommandLineInterface::createRectangle(bool display, istream &in)
     if(r != nullptr)
     {
         isConstructionPossible = draw.AddForm(name, r, errorMessage);
+        if (isConstructionPossible && doReturnCommand) // On ne cree la commande oppose que si la construction a bien eu lieu
+        {
+            stringstream* oppositeCommand = new stringstream("DELETE " + name + "\r\n");
+            stringstream* command = new stringstream();
+            *command << "R " << name << " " << x1 << " " << y1 << " " << x2 << " " << y2 << endl;
+            CommandUndoRedo* commandUndoRedo = new CommandUndoRedo{oppositeCommand, command};
+            addCommandInUndoList(commandUndoRedo);
+        }
     }
 
     if (display)
@@ -188,7 +210,7 @@ void CommandLineInterface::createRectangle(bool display, istream &in)
     }
 }
 
-void CommandLineInterface::createConvexPolygone(bool display, istream &in)
+void CommandLineInterface::createConvexPolygone(bool display, istream &in, bool doReturnCommand)
 {
     string name;
     int x;
@@ -209,6 +231,19 @@ void CommandLineInterface::createConvexPolygone(bool display, istream &in)
     if(cP != nullptr)
     {
         isConstructionPossible = draw.AddForm(name, cP, errorMessage);
+        if (isConstructionPossible && doReturnCommand) // On ne cree la commande oppose que si la construction a bien eu lieu
+        {
+            stringstream* oppositeCommand = new stringstream("DELETE " + name + "\r\n");
+            stringstream* command = new stringstream();
+            *command << "PC " << name;
+            for (uint i = 0; i < parametersArray.size(); i++)
+            {
+                *command << " " << parametersArray[i].GetX() << " " << parametersArray[i].GetY();
+            }
+            *command << endl;
+            CommandUndoRedo* commandUndoRedo = new CommandUndoRedo{oppositeCommand, command};
+            addCommandInUndoList(commandUndoRedo);
+        }
     }
 
     if (display)
@@ -217,7 +252,7 @@ void CommandLineInterface::createConvexPolygone(bool display, istream &in)
     }
 }
 
-void CommandLineInterface::createEnsemble(Ensemble::Type type, bool display, istream &in)
+void CommandLineInterface::createEnsemble(Ensemble::Type type, bool display, istream &in, bool doReturnCommand)
 {
     vector<Form*> formList;
     string currentName;
@@ -243,6 +278,19 @@ void CommandLineInterface::createEnsemble(Ensemble::Type type, bool display, ist
     if (e != nullptr)
     {
         isConstructionPossible = draw.AddForm(ensembleName, e, errorMessage);
+        if (isConstructionPossible && doReturnCommand) // On ne cree la commande oppose que si la construction a bien eu lieu
+        {
+            stringstream* oppositeCommand = new stringstream("DELETE " + ensembleName + "\r\n");
+            stringstream* command = new stringstream();
+            *command << (type == Ensemble::UNION ? "OR " : "OI ") << ensembleName;
+            for (uint i = 0; i < formList.size(); i++)
+            {
+               *command << " " << formList[i]->GetName();
+            }
+            *command << endl;
+            CommandUndoRedo* commandUndoRedo = new CommandUndoRedo{oppositeCommand, command};
+            addCommandInUndoList(commandUndoRedo);
+        }
     }
 
     if (display)
@@ -264,36 +312,62 @@ void CommandLineInterface::hit()
     cout << response << endl;
 }
 
-void CommandLineInterface::deleteForm(bool display, istream &in)
+void CommandLineInterface::deleteForm(bool display, istream &in, bool doReturnCommand)
 {
+    cout << " debut delete" << endl;
     vector<string> nameList;
     string currentName;
     string errorMessage = "";
+    string deletedNameList = "";
+    string deletedFormInformation = "";
 
-    while (cin.peek() != '\n')
+    cout << " a" << in.peek() << "a " << endl;
+    while (in.peek() != '\n' && in.peek() != '\r')
     {
         in >> currentName;
         nameList.push_back(currentName);
+        cout << " nom des effaces: " << currentName << endl;
+    }
+
+    bool success = draw.Delete(nameList, errorMessage, deletedNameList, deletedFormInformation);
+    if (success && doReturnCommand)
+    {
+        stringstream* oppositeCommand = new stringstream(deletedFormInformation);
+        stringstream* command = new stringstream("DELETE" + deletedNameList + "\r\n");
+        CommandUndoRedo* commandUndoRedo = new CommandUndoRedo{oppositeCommand, command};
+        addCommandInUndoList(commandUndoRedo);
     }
 
     if (display)
     {
-        bool success = draw.Delete(nameList, errorMessage);
         responseToUser(success, errorMessage);
     }
 }
 
-void CommandLineInterface::move()
+void CommandLineInterface::move(bool display, istream &in, bool doReturnCommand)
 {
     string name;
     string errorMessage = "";
     int dX;
     int dY;
 
-    cin >> name >> dX >> dY;
+    in >> name >> dX >> dY;
 
     bool success = draw.Move(name, dX, dY, errorMessage);
-    responseToUser(success, errorMessage);
+    if (success && doReturnCommand)
+    {
+        stringstream* oppositeCommand = new stringstream();
+        stringstream* command = new stringstream();
+        *oppositeCommand << "MOVE " << name << " " << -dX << " " << -dY << endl;
+        *command << "MOVE " << name << " " << dX << " " << dY << endl;
+        CommandUndoRedo* commandUndoRedo = new CommandUndoRedo{oppositeCommand, command};
+        addCommandInUndoList(commandUndoRedo);
+    }
+
+    if(display)
+    {
+        responseToUser(success, errorMessage);
+    }
 }
 
 void CommandLineInterface::listForm()
@@ -301,42 +375,115 @@ void CommandLineInterface::listForm()
     draw.Enumerate(cout);
 }
 
-void CommandLineInterface::load()
+void CommandLineInterface::undo()
+{
+    if (undoList.size() == 0)
+    {
+        responseToUser(false, "Pas de commande a annulee");
+        return;
+    }
+    CommandUndoRedo* command = undoList.front();
+    undoList.pop_front();
+    redoList.push_front(command);
+
+    afficherStringstream(*(command->undo));
+    load(*(command->undo), true);
+    responseToUser(true);
+}
+
+void CommandLineInterface::redo()
+{
+    if (redoList.size() == 0)
+    {
+        responseToUser(false, "Pas de commande a refaire");
+        return;
+    }
+    CommandUndoRedo* command = redoList.front();
+    redoList.pop_front();
+    undoList.push_front(command);
+
+    afficherStringstream(*(command->redo));
+    load(*(command->redo), false);
+    responseToUser(true);
+}
+
+void CommandLineInterface::load(bool display, istream &in)
 {
     string filename;
-    cin >> filename;
+    in >> filename;
 
-    ifstream in(filename);
+    stringstream* currentLoad = new stringstream();
+    draw.Enumerate(*currentLoad);
+    stringstream* oppositeCommand = new stringstream("CLEAR\r\nLOAD\r\n");
+    stringstream* command = new stringstream("LOAD " + filename + "\r\n");
 
-    string nextAction;
-    while (in >> nextAction && in.peek() != '\n')
+    CommandUndoRedo* commandUndoRedo = new CommandUndoRedo{oppositeCommand, command, currentLoad};
+    addCommandInUndoList(commandUndoRedo);
+
+    ifstream fileIn(filename);
+    load(fileIn, false);
+    fileIn.close();
+
+    if (display)
     {
+        responseToUser(true);
+    }
+}
+
+void CommandLineInterface::load(istream &in, bool undo)
+{
+    cout << "     debut load" << endl;
+    cout << "              a" << in.peek() << "a" << endl;
+    string nextAction;
+    while (in >> nextAction /*&& in.peek() != '\n'*/)
+    {
+        cout << "   " << nextAction <<  endl;
         if(nextAction == "S" )
         {
-            createSegment(false, in);
+            createSegment(false, in, false);
         }
         else if( nextAction == "R" )
         {
-            createRectangle(false, in);
+            createRectangle(false, in, false);
         }
         else if( nextAction == "PC" )
         {
-            createConvexPolygone(false, in);
+            createConvexPolygone(false, in, false);
         }
         else if( nextAction == "OR" )
         {
-            createEnsemble(Ensemble::UNION, false, in);
+            createEnsemble(Ensemble::UNION, false, in, false);
         }
         else if( nextAction == "OI" )
         {
-            createEnsemble(Ensemble::INTERSECTION, false, in);
+            createEnsemble(Ensemble::INTERSECTION, false, in, false);
         }
         else if(nextAction == "DELETE")
         {
-            deleteForm(false, in);
+            deleteForm(false, in, false);
+        }
+        // Les commandes ci-dessous (MOVE, LOAD et CLEAR) ne sont accessible que
+        // depuis les commandes UNDO et REDO
+        else if(nextAction == "MOVE")
+        {
+            move(false, in, false);
+        }
+        else if (nextAction == "LOAD")
+        {
+            if (undo)
+            {
+                load(*(undoList.front())->load, false); // pointeur vers le stringstream de sauvegarde
+            }
+            else
+            {
+                load(false, in);
+            }
+        }
+        else if(nextAction == "CLEAR")
+        {
+            clear(false);
         }
     }
-    responseToUser(true);
 }
 
 void CommandLineInterface::save()
@@ -346,14 +493,67 @@ void CommandLineInterface::save()
 
     ofstream out(filename);
     draw.Enumerate(out);
+    out.close();
     responseToUser(true);
 }
 
-void CommandLineInterface::clear()
+void CommandLineInterface::clear(bool doReturnCommand)
 {
+    if(doReturnCommand)
+    {
+        stringstream* currentLoad = new stringstream();
+        draw.Enumerate(*currentLoad);
+        stringstream* oppositeCommand = new stringstream("LOAD\r\n");
+        stringstream* command = new stringstream("CLEAR\r\n");
+
+        CommandUndoRedo* commandUndoRedo = new CommandUndoRedo{oppositeCommand, command, currentLoad};
+        addCommandInUndoList(commandUndoRedo);
+    }
+
     draw.Clear();
     responseToUser(true);
 }
+
+void CommandLineInterface::responseToUser(bool response, string message)
+{
+    cout << (response ? "OK" : "ERR") << endl;
+
+    if(message!="")
+    {
+        cout << "# " << message << endl;
+    }
+}
+
+void CommandLineInterface::addCommandInUndoList(CommandUndoRedo* command)
+{
+    undoList.push_front(command);
+    if (undoList.size() > 20)
+    {
+        delete undoList.back();
+        undoList.pop_back();
+    }
+}
+
+void CommandLineInterface::clearRedoList()
+{
+    cout << "       " << "Debut clearRedoList" << endl;
+    list<CommandUndoRedo*>::iterator itRedoList;
+    for (itRedoList = redoList.begin(); itRedoList != redoList.end(); itRedoList++)
+    {
+        delete *itRedoList;
+    }
+    redoList.clear();
+}
+
+void CommandLineInterface::afficherStringstream(const stringstream &ss)
+{
+    string s;
+    s = ss.str();
+    cout << " " << s;
+}
+
+
+
 
 
 

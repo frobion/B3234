@@ -38,7 +38,8 @@ class Draw
 public:
 //----------------------------------------------------------- Méthodes publiques
     bool AddForm(const string &name, Form * form, string &errorMessage);
-    bool Delete(const vector<string> &nameList, string &errorMessage);
+    bool Delete(const vector<string> &nameList, string &errorMessage,
+                string &deletedNameList, string & deletedFormInformation);
     void Enumerate(ostream &out);
     void Clear();
     bool Hit(const string &name, int x, int y, string &errorMessage);
