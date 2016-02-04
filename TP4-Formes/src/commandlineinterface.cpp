@@ -314,19 +314,19 @@ void CommandLineInterface::hit()
 
 void CommandLineInterface::deleteForm(bool display, istream &in, bool doReturnCommand)
 {
-    cout << " debut delete" << endl;
+    //cout << " debut delete" << endl;
     vector<string> nameList;
     string currentName;
     string errorMessage = "";
     string deletedNameList = "";
     string deletedFormInformation = "";
 
-    cout << " a" << in.peek() << "a " << endl;
+    //cout << " a" << in.peek() << "a " << endl;
     while (in.peek() != '\n' && in.peek() != '\r')
     {
         in >> currentName;
         nameList.push_back(currentName);
-        cout << " nom des effaces: " << currentName << endl;
+        //cout << " nom des effaces: " << currentName << endl;
     }
 
     bool success = draw.Delete(nameList, errorMessage, deletedNameList, deletedFormInformation);
@@ -382,12 +382,18 @@ void CommandLineInterface::undo()
         responseToUser(false, "Pas de commande a annulee");
         return;
     }
+
     CommandUndoRedo* command = undoList.front();
     undoList.pop_front();
     redoList.push_front(command);
 
-    afficherStringstream(*(command->undo));
-    load(*(command->undo), true);
+    //afficherStringstream(*(command->undo));
+    stringstream tmp;
+    tmp << command->undo->str();
+    load(tmp, true);
+//    load(*(command->undo), true);
+//    (command->undo)->seekp(0, ios::beg);
+
     responseToUser(true);
 }
 
@@ -402,8 +408,14 @@ void CommandLineInterface::redo()
     redoList.pop_front();
     undoList.push_front(command);
 
-    afficherStringstream(*(command->redo));
-    load(*(command->redo), false);
+    //afficherStringstream(*(command->redo));
+    stringstream tmp;
+    tmp << command->redo->str();
+    load(tmp, true);
+    //load(*(new stringstream(command->redo->str())), false);
+//    load(*(command->redo), false);
+//    (command->redo)->seekg(0, ios::beg);
+
     responseToUser(true);
 }
 
@@ -432,12 +444,12 @@ void CommandLineInterface::load(bool display, istream &in)
 
 void CommandLineInterface::load(istream &in, bool undo)
 {
-    cout << "     debut load" << endl;
-    cout << "              a" << in.peek() << "a" << endl;
+//    cout << "     debut load" << endl;
+//    cout << "              a" << in.peek() << "a" << endl;
     string nextAction;
     while (in >> nextAction /*&& in.peek() != '\n'*/)
     {
-        cout << "   " << nextAction <<  endl;
+        //cout << "   " << nextAction <<  endl;
         if(nextAction == "S" )
         {
             createSegment(false, in, false);
@@ -536,7 +548,7 @@ void CommandLineInterface::addCommandInUndoList(CommandUndoRedo* command)
 
 void CommandLineInterface::clearRedoList()
 {
-    cout << "       " << "Debut clearRedoList" << endl;
+    //cout << "       " << "Debut clearRedoList" << endl;
     list<CommandUndoRedo*>::iterator itRedoList;
     for (itRedoList = redoList.begin(); itRedoList != redoList.end(); itRedoList++)
     {
