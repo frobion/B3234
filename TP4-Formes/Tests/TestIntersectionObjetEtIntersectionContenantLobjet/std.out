@@ -2,13 +2,18 @@ OK
 OK
 OK
 OK
+R _Rectangle1 1 3 6 0
+R _Rectangle2 1 3 8 -4
+OI Intersection1 _Rectangle1 _Rectangle2
+DELETE _Rectangle1 _Rectangle2
+R __Rectangle1 1 3 6 0
+R __Rectangle2 1 3 8 -4
+OI _Intersection1 __Rectangle1 __Rectangle2
+DELETE __Rectangle1 __Rectangle2
+R _Rectangle2 1 3 8 -4
+OI Intersection2 _Intersection1 _Rectangle2
+DELETE _Intersection1 _Rectangle2
 R Rectangle1 1 3 6 0
 R Rectangle2 1 3 8 -4
-OI Intersection1
-	R Rectangle1 1 3 6 0
-	R Rectangle2 1 3 8 -4
-OI Intersection2
-	OI Intersection1
-	R Rectangle2 1 3 8 -4
 
 
