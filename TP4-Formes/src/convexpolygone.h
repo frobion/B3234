@@ -23,7 +23,9 @@ using namespace std;
 
 //------------------------------------------------------------------------------
 // Rôle de la classe ConvexPolygone
-//
+// La classe ConvexPolygone represente un polygone convexe. Il est possible
+// d'effectuer un test d'appartenance, un deplacement, un export vers une
+// chaine de caracteres, ou une copie qui modifie legerement le nom.
 //------------------------------------------------------------------------------
 
 class ConvexPolygone : public Form
@@ -33,11 +35,22 @@ class ConvexPolygone : public Form
 public:
 //----------------------------------------------------------- Méthodes publiques
     virtual bool Hit(Point p);
+    // Voir Form::Hit
+
     virtual string GetInformation();
+    // Renvoie les information de la forme sous la forme d'une chaine de caracteres
+    // Renvoie "PC <name> <x1> <y1> ... <xn> <yn>\r\n".
+
     virtual ConvexPolygone* Clone() const;
+    // Renvoie un pointeur sur un polygone convexe. La nouvelle forme est identique
+    // a la forme de base, sauf son nom qui est : "_<name>", avec <name> le nom
+    // de la forme de base.
 
     static ConvexPolygone* GetConvexPolygone(const string &name, const vector<Point> &pointList,
                                              string &errorMessage);
+    // Si le vector de point pointList represente un polygone convexe, cree un polygone
+    // convexe de sommets les points representes par pointList. Sinon, renvoie un pointeur
+    // nul. Un polygone ayant des points alignes est consideres non convexe
 
 //------------------------------------------------------- Surcharge d'opérateurs
 
@@ -56,9 +69,9 @@ protected:
 
 private:
 //------------------------------------------------------------- Methodes privées
-  static void affichePoint(const vector<Point> &pointList);
-
   static double getSigneSinusABAC(const Point &a, const Point &b, const Point &c);
+  // Renvoie un nombre du meme signe que le sinus(AB, AC), avec AB le vecteur
+  // des points de a vers b, et AC le vecteur des points de a vers c.
 
 //------------------------------------------------------------------Constructeur
   ConvexPolygone(const string &name, const vector<Point> &pointList);
@@ -68,7 +81,7 @@ protected:
 
 private:
 //------------------------------------------------------------- Attributs privés
-  vector<Point> pointList;
+  vector<Point> pointList; // La liste des sommets du polygone
 
 //---------------------------------------------------------------- Classes amies
 

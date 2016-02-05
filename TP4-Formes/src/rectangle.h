@@ -20,7 +20,9 @@ using namespace std;
 
 //------------------------------------------------------------------------------
 // Rôle de la classe Rectangle
-//
+// La classe Rectangle represente un rectangle. Il est possible d'effectuer un
+// test d'appartenance, un deplacement, un export vers une chaine de caracteres,
+// ou une copie qui modifie legerement le nom.
 //------------------------------------------------------------------------------
 
 class Rectangle : public Form
@@ -30,11 +32,26 @@ class Rectangle : public Form
 public:
 //----------------------------------------------------------- Méthodes publiques
     virtual bool Hit(Point p);
+    // voir Form::Hit
+
     virtual string GetInformation();
+    // Renvoie les information du rectangle sous la forme d'une chaine de
+    // caracteres de la forme : "R <name> <x1> <y1> <x2> <y2>", avec name
+    // le nom du rectangle, (x1, y1) les coordonnees de son point en haut
+    // a gauche, et (x2, y2) les coordonnees de son point en bas a droite.
+
     virtual Rectangle* Clone() const;
+    // Renvoie un pointeur sur un rectangle. Le nouveau rectangle est identique
+    // au rectangle de base, sauf son nom qui est : "_<name>", avec <name> le nom
+    // du rectangle de base.
 
     static Rectangle* GetRectangle(const string &name, const Point &topLeft,
                                    const Point &bottomRight, string &errorMessage);
+    // Verifie si les parametres sont valides pour construire un rectangle. Un
+    // rectangle peut etre construit ssi le point topLeft est strictement situe
+    // dans le cadran en haut a gauche du point bottomRight. Si le rectangle est
+    // constuctible, renvoie un pointeur vers un nouveau rectangle. Sinon, renvoie
+    // le pointeur null, et errorMessge prend la valeur "Mauvais cadran".
 
 //------------------------------------------------------- Surcharge d'opérateurs
 
@@ -62,8 +79,8 @@ protected:
 
 private:
 //------------------------------------------------------------- Attributs privés
-Point topLeft;
-Point bottomRight;
+Point topLeft; // Le point en haut a gauche du rectangle.
+Point bottomRight; // Le point en bas a droite du rectangle.
 //---------------------------------------------------------------- Classes amies
 
 //-------------------------------------------------------------- Classes privées
