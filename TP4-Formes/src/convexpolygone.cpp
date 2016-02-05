@@ -38,12 +38,16 @@ bool ConvexPolygone::Hit(Point p)
 {
     p -= offset;
 
-    double currentSinusABAC = getSinusABAC(pointList[pointList.size() - 1], pointList[0], p);
+    double currentSinusABAC = getSigneSinusABAC(pointList[pointList.size() - 1], pointList[0], p);
+    if (currentSinusABAC == 0)
+    {
+        return false;
+    }
     bool isSinusABACPositif = currentSinusABAC > 0;
 
     for (uint i = 0; i < pointList.size() - 1; i++)
     {
-        currentSinusABAC = getSinusABAC(pointList[i], pointList[i + 1], p);
+        currentSinusABAC = getSigneSinusABAC(pointList[i], pointList[i + 1], p);
         if((currentSinusABAC > 0 && !isSinusABACPositif) || (currentSinusABAC < 0 && isSinusABACPositif) || currentSinusABAC == 0)
         {
             return false;
@@ -83,7 +87,7 @@ ConvexPolygone* ConvexPolygone::GetConvexPolygone(const string &name, const vect
 
 
     bool sinusThetaIsPositif;
-    double currentSinusABAC= getSinusABAC(pointList[0], pointList[pointList.size() - 1], pointList[1]);
+    double currentSinusABAC= getSigneSinusABAC(pointList[0], pointList[pointList.size() - 1], pointList[1]);
     if (currentSinusABAC == 0)
     {
         errorMessage = "Points alignes";
@@ -94,7 +98,7 @@ ConvexPolygone* ConvexPolygone::GetConvexPolygone(const string &name, const vect
 
     for (uint i = 1; i < pointList.size(); i++)
     {
-        currentSinusABAC = getSinusABAC(pointList[i], pointList[i - 1], pointList[(i + 1) % pointList.size()]);
+        currentSinusABAC = getSigneSinusABAC(pointList[i], pointList[i - 1], pointList[(i + 1) % pointList.size()]);
         if (currentSinusABAC == 0)
         {
             errorMessage = "Points alignes";
@@ -125,7 +129,7 @@ ConvexPolygone::~ConvexPolygone()
 //----------------------------------------------------------- Methodes protegees
 
 //------------------------------------------------------------- Methodes privees
-double ConvexPolygone::getSinusABAC(const Point &a, const Point &b, const Point &c)
+double ConvexPolygone::getSigneSinusABAC(const Point &a, const Point &b, const Point &c)
 {
     if (!a.IsDifferent(b))
     {
@@ -141,9 +145,9 @@ double ConvexPolygone::getSinusABAC(const Point &a, const Point &b, const Point 
 
     double denominateur = (xB - xA)*(xB - xA) + (yB - yA)*(yB - yA);
     double partieImaginaire = ((yC - yA)*(xB - xA) + (yA - yB)*(xC - xA)) / denominateur;
-    double partieReel = ((xC - xA)*(xB - xA) + (yC - yA)*(yB - yA)) / denominateur;
+//    double partieReel = ((xC - xA)*(xB - xA) + (yC - yA)*(yB - yA)) / denominateur;
 
-    return partieImaginaire / (sqrt(partieReel * partieReel + partieImaginaire * partieImaginaire));
+    return partieImaginaire /*/ (sqrt(partieReel * partieReel + partieImaginaire * partieImaginaire))*/;
 }
 
 //------------------------------------------------------------------Constructeur

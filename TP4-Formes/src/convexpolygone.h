@@ -58,7 +58,7 @@ private:
 //------------------------------------------------------------- Methodes privées
   static void affichePoint(const vector<Point> &pointList);
 
-  static double getSinusABAC(const Point &a, const Point &b, const Point &c);
+  static double getSigneSinusABAC(const Point &a, const Point &b, const Point &c);
 
 //------------------------------------------------------------------Constructeur
   ConvexPolygone(const string &name, const vector<Point> &pointList);

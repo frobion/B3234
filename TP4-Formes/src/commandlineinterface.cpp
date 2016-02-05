@@ -218,7 +218,7 @@ void CommandLineInterface::createConvexPolygone(bool display, istream &in, bool 
     vector<Point> parametersArray;
 
     in >> name;
-    while(cin.peek() != '\n')
+    while(in.peek() != '\n' && in.peek() != '\r')
     {
         in >> x >> y;
         parametersArray.push_back(Point(x, y));
@@ -254,6 +254,7 @@ void CommandLineInterface::createConvexPolygone(bool display, istream &in, bool 
 
 void CommandLineInterface::createEnsemble(Ensemble::Type type, bool display, istream &in, bool doReturnCommand)
 {
+    //cout << " debut createEnsemble" << endl;
     vector<Form*> formList;
     string currentName;
     Form* currentForm;
@@ -261,9 +262,19 @@ void CommandLineInterface::createEnsemble(Ensemble::Type type, bool display, ist
     string ensembleName;
     in >> ensembleName;
 
-    while (cin.peek() != '\n')
+//    if (!doReturnCommand)
+//    {
+//        cout << ensembleName << " ";
+//        string s;
+//        //in.getline(s, 1000);
+//        getline(in, s);
+//        cout << s << endl;
+//    }
+    //cout << " a" << in.peek() << "a" << endl;
+    while (in.peek() != '\n' && in.peek() != '\r')
     {
         in >> currentName;
+        //cout << " currentName: " << currentName << endl;
         currentForm = draw.GetForm(currentName);
         if (currentForm == nullptr)
         {
@@ -338,6 +349,7 @@ void CommandLineInterface::deleteForm(bool display, istream &in, bool doReturnCo
     }
 
     bool success = draw.Delete(nameList, errorMessage, deletedNameList, deletedFormInformation);
+    //cout << " " << deletedFormInformation;
     if (success && doReturnCommand)
     {
         stringstream* oppositeCommand = new stringstream(deletedFormInformation);
@@ -392,13 +404,13 @@ void CommandLineInterface::undo()
     }
 
     CommandUndoRedo* command = undoList.front();
-    undoList.pop_front();
     redoList.push_front(command);
 
     //afficherStringstream(*(command->undo));
     stringstream tmp;
     tmp << command->undo->str();
     load(tmp, true);
+    undoList.pop_front();
 //    load(*(command->undo), true);
 //    (command->undo)->seekp(0, ios::beg);
 
@@ -419,7 +431,7 @@ void CommandLineInterface::redo()
     //afficherStringstream(*(command->redo));
     stringstream tmp;
     tmp << command->redo->str();
-    load(tmp, true);
+    load(tmp, false);
     //load(*(new stringstream(command->redo->str())), false);
 //    load(*(command->redo), false);
 //    (command->redo)->seekg(0, ios::beg);
@@ -441,8 +453,16 @@ void CommandLineInterface::load(bool display, istream &in)
     addCommandInUndoList(commandUndoRedo);
 
     ifstream fileIn(filename);
-    load(fileIn, false);
-    fileIn.close();
+    if (fileIn)
+    {
+        load(fileIn, false);
+        fileIn.close();
+    }
+    else if (display)
+    {
+        responseToUser(false, "Nom de fichier inexistant");
+        return;
+    }
 
     if (display)
     {
@@ -455,7 +475,7 @@ void CommandLineInterface::load(istream &in, bool undo)
 //    cout << "     debut load" << endl;
 //    cout << "              a" << in.peek() << "a" << endl;
     string nextAction;
-    while (in >> nextAction /*&& in.peek() != '\n'*/)
+    while (in >> nextAction && !in.eof())
     {
         //cout << "   " << nextAction <<  endl;
         if(nextAction == "S" )
@@ -492,11 +512,16 @@ void CommandLineInterface::load(istream &in, bool undo)
         {
             if (undo)
             {
-                load(*(undoList.front())->load, false); // pointeur vers le stringstream de sauvegarde
+                stringstream tmp;
+                tmp << undoList.front()->load->str();
+                load(tmp, false);
+                //load(*(undoList.front())->load, false); // pointeur vers le stringstream de sauvegarde
+                //cout << " pas par la" << endl;
             }
             else
             {
                 load(false, in);
+                //cout << " par la c'est mieux" << endl;
             }
         }
         else if(nextAction == "CLEAR")
